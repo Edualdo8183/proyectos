@@ -18,3 +18,10 @@ hijos = int(hijos)
 bonificacion = hijos * 80 
 sueldo += bonificacion
 print ("El sueldo del empleado mas la bonificacion es", sueldo)
+
+minutos = input("Minutos de llamada del usuario")
+minutos = int(minutos)
+segundos = minutos * 60
+llamada = segundos/150
+llamada *= 0.20
+print ("El monto total es de", llamada) FALTA AGREGAR MAS 
