@@ -1,0 +1,20 @@
+dolares = input("¿Cuantos dolares quieres convertir a euros?")
+dolares = float(dolares)
+tasacambio = 1.08
+euros = dolares * tasacambio
+print ("Tienes", euros)
+
+precio = input("¿Cual es el precio de tu articulo?")
+precio = float(precio)
+descuento = input ("¿Cual es el descuento que tienes?")
+descuento = float(descuento)
+preciofinal = precio - (precio*descuento/100)
+print ("El precio final es", preciofinal, "dolares")
+
+sueldo = input ("Sueldo del empleado")
+sueldo = int(sueldo)
+hijos = input ("# de hijos del empleado")
+hijos = int(hijos)
+bonificacion = hijos * 80 
+sueldo += bonificacion
+print ("El sueldo del empleado mas la bonificacion es", sueldo)
