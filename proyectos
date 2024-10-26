@@ -1,3 +1,41 @@
+base = float(input("Ingrese la base del triángulo: "))
+altura = float(input("Ingrese la altura del triángulo: "))
+area = (base * altura) / 2
+print("El área del triángulo es" area )
+
+num = int(input("Ingrese un número: "))
+if num % 2 == 0:
+    print("El número es par")
+else:
+    print("El número es impar")
+
+num = float(input("Ingrese un número"))
+if num > 0:
+    print("El número es positivo")
+elif num< 0:
+    print("El número es negativo")
+else:
+    print("El número es cero")
+
+numero1 = float(input("Ingrese el primer valor "))
+numero2 = float(input("Ingrese el segundo valor "))
+if numero1 > numero2:
+    print("El mayor es", a)
+else:
+    print("El mayor es:, b)
+
+numero1 = float(input("Ingrese el primer número: "))
+numero2 = float(input("Ingrese el segundo número: "))
+numero3 = float(input("Ingrese el tercer número: "))
+
+if numero1 == numero2 or numero1 == numero3 or numero2 == numero3:
+    print("Los números deben ser distintos.")
+else:
+    mayor = max(numero1, numero2, numero3)
+    menor = min(numero1, numero2, numero3)
+    print("El mayor es" mayor)
+    print("El menor es" menor)
+
 dolares = input("¿Cuantos dolares quieres convertir a euros?")
 dolares = float(dolares)
 tasacambio = 1.08
@@ -11,6 +49,31 @@ descuento = float(descuento)
 preciofinal = precio - (precio*descuento/100)
 print ("El precio final es", preciofinal, "dolares")
 
+numero1 = float(input("Ingrese el primer número: "))
+numero2 = float(input("Ingrese el segundo número: "))
+
+print("Seleccione la operación:")
+print("1. Suma")
+print("2. Resta")
+print("3. Multiplicación")
+print("4. División")
+
+operacion = input("Ingrese el número de la operación deseada (1/2/3/4): ")
+
+if operacion == '1':
+    resultado = numero1 + numero2
+    print("El resultado de la suma es:", resultado)
+elif operacion == '2':
+    resultado = numero1 - numero2
+    print("El resultado de la resta es:", resultado)
+elif operacion == '3':
+    resultado = numero1 * numero2
+    print("El resultado de la multiplicación es:", resultado)
+elif operacion == '4':
+    if numero2 != 0:
+        resultado = numero1 / numero2
+        print("El resultado de la división es:", resultado)
+
 sueldo = input ("Sueldo del empleado")
 sueldo = int(sueldo)
 hijos = input ("# de hijos del empleado")
@@ -19,9 +82,39 @@ bonificacion = hijos * 80
 sueldo += bonificacion
 print ("El sueldo del empleado mas la bonificacion es", sueldo)
 
-minutos = input("Minutos de llamada del usuario")
-minutos = int(minutos)
-segundos = minutos * 60
-llamada = segundos/150
-llamada *= 0.20
-print ("El monto total es de", llamada) FALTA AGREGAR MAS 
+monto_inicial = float(input("Ingrese el monto inicial de la tarjeta: "))
+monto_final = float(input("Ingrese el monto final de la tarjeta: "))
+monto_consumido = monto_inicial - monto_final
+recargo = monto_consumido * 0.20
+costo_total = monto_consumido + recargo
+print("Costo de la llamada:", costo_total)
+
+saldo_inicial = float(input("Ingrese el saldo inicial del ahorrista: "))
+interes = saldo_inicial * 0.015
+saldo_final = saldo_inicial + interes
+print("El saldo final del ahorrista es:", saldo_final)
+
+tamaño_terreno = float(input("Ingrese el tamaño del terreno en metros cuadrados: "))
+precio_por_metro = 120
+total_terreno = tamaño_terreno * precio_por_metro
+cuota_inicial = total_terreno * 0.20
+monto_financiar = total_terreno - cuota_inicial
+cuota_mensual = monto_financiar / 12
+print("El monto de cada cuota mensual es:", cuota_mensual)
+
+sueldo_base = float(input("Ingrese el sueldo base del trabajador: "))
+descuento_politica_habitacional = sueldo_base * 0.01
+descuento_seguro_social = sueldo_base * 0.04
+descuento_seguro_paro_forzoso = sueldo_base * 0.005
+descuento_caja_ahorro = sueldo_base * 0.05
+monto_total_descuentos = (descuento_politica_habitacional + 
+                           descuento_seguro_social + 
+                           descuento_seguro_paro_forzoso + 
+                           descuento_caja_ahorro)
+sueldo_neto = sueldo_base - monto_total_descuentos
+print("Monto de descuento por política habitacional", descuento_politica_habitacional)
+print("Monto de descuento por seguro social", descuento_seguro_social)
+print("Monto de descuento por seguro de paro forzoso", descuento_seguro_paro_forzoso)
+print("Monto de descuento por caja de ahorro", descuento_caja_ahorro)
+print("Monto total de descuentos", monto_total_descuentos)
+print("Monto total a pagar al trabajador", sueldo_neto)
