@@ -57,15 +57,10 @@ public class Main {
         System.out.print("¿Cuál es tu tipo de sangre? ");
         String tipoSangre = scanner.nextLine();
 
-        // Crear objeto Persona sin usar private
+        // Crear objeto Persona con los datos ingresados
         Persona persona1 = new Persona(nombre, edad, altura, tipoSangre);
 
-        // Acceder directamente a los atributos
-        System.out.println("\nModificando datos directamente...");
-        persona1.nombre = "Carlos"; // Cambio de nombre directo
-        persona1.edad += 1; // Aumentar edad en 1
-
-        // Mostrar datos actualizados y llamar métodos
+        // Mostrar datos y llamar métodos
         persona1.mostrarDatos();
         persona1.comer();
         persona1.caminar();
