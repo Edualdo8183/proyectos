@@ -33,3 +33,43 @@ public class Persona {
         System.out.println("Tipo de sangre: " + tipoSangre);
     }
 }
+
+package vista;
+
+import modelo.Persona;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicitar datos al usuario
+        System.out.print("¿Cómo te llamas? ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("¿Cuántos años tienes? ");
+        int edad = scanner.nextInt();
+
+        System.out.print("¿Cuál es tu altura? ");
+        double altura = scanner.nextDouble();
+        scanner.nextLine(); // Consumir el salto de línea pendiente
+
+        System.out.print("¿Cuál es tu tipo de sangre? ");
+        String tipoSangre = scanner.nextLine();
+
+        // Crear objeto Persona sin usar private
+        Persona persona1 = new Persona(nombre, edad, altura, tipoSangre);
+
+        // Acceder directamente a los atributos
+        System.out.println("\nModificando datos directamente...");
+        persona1.nombre = "Carlos"; // Cambio de nombre directo
+        persona1.edad += 1; // Aumentar edad en 1
+
+        // Mostrar datos actualizados y llamar métodos
+        persona1.mostrarDatos();
+        persona1.comer();
+        persona1.caminar();
+
+        scanner.close();
+    }
+}
