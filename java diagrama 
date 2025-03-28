@@ -1,0 +1,114 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Clase base Persona
+public class Persona {
+    protected String nombre;
+    protected int edad;
+
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public void mostrar() {
+        System.out.println("Nombre: " + nombre + ", Edad: " + edad);
+    }
+}
+
+// Clase Cliente
+class Cliente extends Persona {
+    private String telefonoDeContacto;
+
+    public Cliente(String nombre, int edad, String telefonoDeContacto) {
+        super(nombre, edad);
+        this.telefonoDeContacto = telefonoDeContacto;
+    }
+
+    @Override
+    public void mostrar() {
+        super.mostrar();
+        System.out.println("Teléfono de Contacto: " + telefonoDeContacto);
+    }
+}
+
+// Clase Empleado
+class Empleado extends Persona {
+    protected double sueldoBruto;
+
+    public Empleado(String nombre, int edad, double sueldoBruto) {
+        super(nombre, edad);
+        this.sueldoBruto = sueldoBruto;
+    }
+
+    public double calcularSalarioNeto() {
+        return sueldoBruto * 0.85; // Suponiendo una deducción del 15%
+    }
+
+    @Override
+    public void mostrar() {
+        super.mostrar();
+        System.out.println("Sueldo Bruto: " + sueldoBruto);
+    }
+}
+
+// Clase Directivo
+class Directivo extends Empleado {
+    private String categoria;
+    private List<Empleado> subordinados;
+
+    public Directivo(String nombre, int edad, double sueldoBruto, String categoria) {
+        super(nombre, edad, sueldoBruto);
+        this.categoria = categoria;
+        this.subordinados = new ArrayList<>();
+    }
+
+    public void agregarSubordinado(Empleado empleado) {
+        subordinados.add(empleado);
+    }
+
+    @Override
+    public void mostrar() {
+        super.mostrar();
+        System.out.println("Categoría: " + categoria);
+        System.out.println("Subordinados: ");
+        for (Empleado e : subordinados) {
+            System.out.println("  - " + e.nombre);
+        }
+    }
+}
+
+// Clase Empresa
+class Empresa {
+    private String nombre;
+    private List<Cliente> clientes;
+    private List<Empleado> empleados;
+
+    public Empresa(String nombre) {
+        this.nombre = nombre;
+        this.clientes = new ArrayList<>();
+        this.empleados = new ArrayList<>();
+    }
+
+    public void agregarCliente(Cliente cliente) {
+        clientes.add(cliente);
+    }
+
+    public void agregarEmpleado(Empleado empleado) {
+        empleados.add(empleado);
+    }
+
+    public void mostrar() {
+        System.out.println("Empresa: " + nombre);
+        System.out.println("Clientes:");
+        for (Cliente c : clientes) {
+            c.mostrar();
+        }
+        System.out.println("Empleados:");
+        for (Empleado e : empleados) {
+            e.mostrar();
+        }
+    }
+}
