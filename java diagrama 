@@ -112,3 +112,38 @@ class Empresa {
         }
     }
 }
+
+
+package principal;
+
+import modelo.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Crear una empresa
+        Empresa empresa = new Empresa("TechCorp");
+
+        // Crear clientes
+        Cliente cliente1 = new Cliente("Juan Pérez", 30, "123-456-789");
+        Cliente cliente2 = new Cliente("María Gómez", 25, "987-654-321");
+
+        // Crear empleados
+        Empleado empleado1 = new Empleado("Carlos Rodríguez", 35, 3000);
+        Empleado empleado2 = new Empleado("Ana Martínez", 28, 2800);
+
+        // Crear directivo y asignar subordinados
+        Directivo directivo = new Directivo("Luis Fernández", 40, 5000, "Gerente");
+        directivo.agregarSubordinado(empleado1);
+        directivo.agregarSubordinado(empleado2);
+
+        // Agregar datos a la empresa
+        empresa.agregarCliente(cliente1);
+        empresa.agregarCliente(cliente2);
+        empresa.agregarEmpleado(empleado1);
+        empresa.agregarEmpleado(empleado2);
+        empresa.agregarEmpleado(directivo);
+
+        // Mostrar información de la empresa
+        empresa.mostrar();
+    }
+}
