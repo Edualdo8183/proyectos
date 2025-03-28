@@ -19,3 +19,20 @@ public class Cliente {
         System.out.println("Cliente: " + nombre + " " + apellido + " | Cédula: " + cedula + " | Teléfono: " + telefono);
     }
 }
+
+package empresa; // Mismo paquete que Cliente.java
+
+public class Empleado extends Cliente {
+    private double sueldoBruto;
+
+    public Empleado(String cedula, String nombre, String apellido, String direccion, String telefono, double sueldoBruto) {
+        super(cedula, nombre, apellido, direccion, telefono);
+        this.sueldoBruto = sueldoBruto;
+    }
+
+    @Override
+    public void mostrarDatos() {
+        super.mostrarDatos();
+        System.out.println("Sueldo Bruto: $" + sueldoBruto);
+    }
+}
