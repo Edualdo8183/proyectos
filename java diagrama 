@@ -36,3 +36,15 @@ public class Empleado extends Cliente {
         System.out.println("Sueldo Bruto: $" + sueldoBruto);
     }
 }
+
+package empresa;
+
+public class Main {
+    public static void main(String[] args) {
+        Cliente cliente1 = new Cliente("12345678", "Juan", "Pérez", "Av. Siempre Viva", "987654321");
+        cliente1.mostrarDatos();
+
+        Empleado empleado1 = new Empleado("87654321", "María", "Gómez", "Calle 123", "123456789", 2500.50);
+        empleado1.mostrarDatos();
+    }
+}
