@@ -50,3 +50,111 @@ public class Direccion {
                ", numero-" + numero + ')';
     }
 }
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+public class Persona {
+    private String cedula;
+    private String nombre;
+    private GregorianCalendar fechaNacimiento;
+    
+    // Atributos de la relación de Agregación
+    private List<Direccion> direcciones;
+
+    // Constructor vacío
+    public Persona() {
+        this.direcciones = new ArrayList<>();
+    }
+
+    // Constructor con todos los atributos
+    public Persona(String cedula, String nombre, GregorianCalendar fechaNacimiento) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direcciones = new ArrayList<>();
+    }
+
+    // Constructor pasando la cédula y nombre
+    public Persona(String cedula, String nombre) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.direcciones = new ArrayList<>();
+    }
+
+    // Métodos
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public GregorianCalendar getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(GregorianCalendar fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void agregarDireccion(Direccion dir) {
+        direcciones.add(dir);
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        return "Persona{" +
+                "cedula='" + cedula + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", fechaNacimiento=" + format.format(fechaNacimiento.getTime()) +
+                ", direcciones=" + direcciones +
+                '}';
+    }
+}
+
+
+import java.util.GregorianCalendar;
+
+public class Principal {
+
+public static void main(String[] args) {
+    // TODO Auto-generated method stub
+
+    //instanciamos dirección con constructor vacio
+    Direccion direccionUno = new Direccion();
+    direccionUno.setCalle1("Calle Vieja");
+    direccionUno.setCalle2("Elia Liut");
+    direccionUno.setNumero(1230);
+
+    //instanciamos dirección con constructor calle1 y calle2
+    Direccion direccionDos = new Direccion("Sucre", "Benigno Malo");
+    direccionDos.setNumero(1234);
+
+    //instanciamos dirección con constructor que recibe todos los atributos
+    Direccion direccionTres = new Direccion("Calle1", "Calle2", 7890);
+
+    //instanciamos una persona
+    Persona maria = new Persona("010101", "Maria");
+
+    //instanciamos una fecha tipo GregorianCalendar
+    GregorianCalendar fechaNac = new GregorianCalendar(2003, 1, 10);
+
+    //asignamos la fecha al objeto maria
+    pepito.setFechaNacimiento(fechaNac);
+
+    //agregamos las direcciones al objeto maria
+    pepito.agregarDireccion(direccionUno);
+    pepito.agregarDireccion(direccionDos);
+    pepito.agregarDireccion(direccionTres);
+
+    System.out.println("Datos de persona:");
+    System.out.println(maria);
+}
+
+}
+
