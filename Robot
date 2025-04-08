@@ -19,3 +19,15 @@ public class Cabeza {
         System.out.println("Girando la cabeza.");
     }
 }
+
+public abstract class Extremidades {
+    protected double peso;
+    protected String material;
+
+    public Extremidades(double peso, String material) {
+        this.peso = peso;
+        this.material = material;
+    }
+
+    public abstract void mover();
+}
