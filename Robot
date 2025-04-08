@@ -18,70 +18,44 @@ public class Cabeza {
     public void girar() {
         System.out.println("Girando la cabeza.");
     }
+
+    public String getVision() {
+        return vision;
+    }
+
+    public void setVision(String vision) {
+        this.vision = vision;
+    }
+
+    public String getResolucion() {
+        return resolucion;
+    }
+
+    public void setResolucion(String resolucion) {
+        this.resolucion = resolucion;
+    }
 }
+
 
 public abstract class Extremidades {
     protected double peso;
     protected String material;
 
-    public Extremidades(double peso, String material) {
+    public void setPeso(double peso) {
         this.peso = peso;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setMaterial(String material) {
         this.material = material;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
     public abstract void mover();
-}
-
-public class Piernas extends Extremidades {
-    private double longitud;
-
-    public Piernas(double peso, String material, double longitud) {
-        super(peso, material);
-        this.longitud = longitud;
-    }
-
-    @Override
-    public void mover() {
-        System.out.println("Las piernas con longitud " + longitud + " cm están caminando.");
-    }
-}
-
-public class Brazo extends Extremidades {
-    private String herramienta;
-
-    public Brazo(double peso, String material, String herramienta) {
-        super(peso, material);
-        this.herramienta = herramienta;
-    }
-
-    @Override
-    public void mover() {
-        System.out.println("El brazo con herramienta " + herramienta + " se está moviendo.");
-    }
-
-    public void activar() {
-        System.out.println("Activando la herramienta: " + herramienta);
-    }
-}
-
-public class Herramienta extends Extremidades {
-    private boolean pinza;
-    private boolean taladro;
-    private boolean destornillador;
-
-    public Herramienta(double peso, String material, boolean pinza, boolean taladro, boolean destornillador) {
-        super(peso, material);
-        this.pinza = pinza;
-        this.taladro = taladro;
-        this.destornillador = destornillador;
-    }
-
-    @Override
-    public void mover() {
-        System.out.println("La herramienta está operando.");
-    }
-
-    public void intercambiar(String herramienta) {
-        System.out.println("Intercambiando a herramienta: " + herramienta);
-    }
 }
