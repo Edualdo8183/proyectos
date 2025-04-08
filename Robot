@@ -45,3 +45,21 @@ public class Piernas extends Extremidades {
         System.out.println("Las piernas con longitud " + longitud + " cm están caminando.");
     }
 }
+
+public class Brazo extends Extremidades {
+    private String herramienta;
+
+    public Brazo(double peso, String material, String herramienta) {
+        super(peso, material);
+        this.herramienta = herramienta;
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("El brazo con herramienta " + herramienta + " se está moviendo.");
+    }
+
+    public void activar() {
+        System.out.println("Activando la herramienta: " + herramienta);
+    }
+}
