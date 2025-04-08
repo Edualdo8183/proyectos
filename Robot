@@ -36,6 +36,7 @@ public class Cabeza {
     }
 }
 
+XXX
 
 public abstract class Extremidades {
     protected double peso;
@@ -60,6 +61,8 @@ public abstract class Extremidades {
     public abstract void mover();
 }
 
+XXX
+
 public class Piernas extends Extremidades {
     private double longitud;
 
@@ -80,5 +83,141 @@ public class Piernas extends Extremidades {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+}
+
+XXX
+public class Brazo extends Extremidades {
+    private String herramienta;
+
+    public Brazo(double peso, String material, String herramienta) {
+        this.peso = peso;
+        this.material = material;
+        this.herramienta = herramienta;
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("El brazo con herramienta " + herramienta + " se está moviendo.");
+    }
+
+    public void activar() {
+        System.out.println("Activando la herramienta: " + herramienta);
+    }
+
+    public String getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(String herramienta) {
+        this.herramienta = herramienta;
+    }
+}
+
+XXX
+public class Herramienta extends Extremidades {
+    private boolean pinza;
+    private boolean taladro;
+    private boolean destornillador;
+
+    public Herramienta(double peso, String material, boolean pinza, boolean taladro, boolean destornillador) {
+        this.peso = peso;
+        this.material = material;
+        this.pinza = pinza;
+        this.taladro = taladro;
+        this.destornillador = destornillador;
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("La herramienta está operando.");
+    }
+
+    public void intercambiar(String nuevaHerramienta) {
+        System.out.println("Intercambiando a herramienta: " + nuevaHerramienta);
+    }
+
+    public boolean isPinza() {
+        return pinza;
+    }
+
+    public void setPinza(boolean pinza) {
+        this.pinza = pinza;
+    }
+
+    public boolean isTaladro() {
+        return taladro;
+    }
+
+    public void setTaladro(boolean taladro) {
+        this.taladro = taladro;
+    }
+
+    public boolean isDestornillador() {
+        return destornillador;
+    }
+
+    public void setDestornillador(boolean destornillador) {
+        this.destornillador = destornillador;
+    }
+}
+
+XXX
+public class Robot {
+    private Cabeza cabeza;
+    private Extremidades[] extremidades;
+
+    public Robot(Cabeza cabeza, Extremidades[] extremidades) {
+        this.cabeza = cabeza;
+        this.extremidades = extremidades;
+    }
+
+    public void iniciar() {
+        cabeza.analizar();
+        cabeza.detectar();
+        cabeza.girar();
+        for (Extremidades e : extremidades) {
+            e.mover();
+
+            // Llamamos métodos específicos si la instancia lo permite
+            if (e instanceof Brazo) {
+                ((Brazo) e).activar();
+            } else if (e instanceof Herramienta) {
+                ((Herramienta) e).intercambiar("nueva herramienta");
+            }
+        }
+    }
+
+    public Cabeza getCabeza() {
+        return cabeza;
+    }
+
+    public void setCabeza(Cabeza cabeza) {
+        this.cabeza = cabeza;
+    }
+
+    public Extremidades[] getExtremidades() {
+        return extremidades;
+    }
+
+    public void setExtremidades(Extremidades[] extremidades) {
+        this.extremidades = extremidades;
+    }
+} 
+
+XXX
+
+public class Main {
+    public static void main(String[] args) {
+        Cabeza cabeza = new Cabeza("Infrarroja", "1080p");
+
+        Extremidades[] extremidades = {
+            new Piernas(15.0, "Aleación", 120.0),
+            new Brazo(10.0, "Acero", "soldador"),
+            new Herramienta(8.0, "Titanio", true, false, true)
+        };
+
+        Robot robot = new Robot(cabeza, extremidades);
+        robot.iniciar();
     }
 }
