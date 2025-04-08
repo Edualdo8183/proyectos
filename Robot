@@ -63,3 +63,25 @@ public class Brazo extends Extremidades {
         System.out.println("Activando la herramienta: " + herramienta);
     }
 }
+
+public class Herramienta extends Extremidades {
+    private boolean pinza;
+    private boolean taladro;
+    private boolean destornillador;
+
+    public Herramienta(double peso, String material, boolean pinza, boolean taladro, boolean destornillador) {
+        super(peso, material);
+        this.pinza = pinza;
+        this.taladro = taladro;
+        this.destornillador = destornillador;
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("La herramienta está operando.");
+    }
+
+    public void intercambiar(String herramienta) {
+        System.out.println("Intercambiando a herramienta: " + herramienta);
+    }
+}
