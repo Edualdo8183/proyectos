@@ -31,3 +31,17 @@ public abstract class Extremidades {
 
     public abstract void mover();
 }
+
+public class Piernas extends Extremidades {
+    private double longitud;
+
+    public Piernas(double peso, String material, double longitud) {
+        super(peso, material);
+        this.longitud = longitud;
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("Las piernas con longitud " + longitud + " cm están caminando.");
+    }
+}
