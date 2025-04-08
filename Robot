@@ -1,0 +1,21 @@
+public class Cabeza {
+    private String vision;
+    private String resolucion;
+
+    public Cabeza(String vision, String resolucion) {
+        this.vision = vision;
+        this.resolucion = resolucion;
+    }
+
+    public void analizar() {
+        System.out.println("Analizando el entorno con visión " + vision + " y resolución " + resolucion);
+    }
+
+    public void detectar() {
+        System.out.println("Detectando objetos...");
+    }
+
+    public void girar() {
+        System.out.println("Girando la cabeza.");
+    }
+}
