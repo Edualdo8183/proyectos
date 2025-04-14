@@ -58,3 +58,29 @@ public class EmpleadoPorHoras extends Empleado {
         valorHora += extra / horasTrabajadas;
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Empleado Asalariado
+        EmpleadoAsalariado empAsalariado = new EmpleadoAsalariado();
+        empAsalariado.salario = 1000;
+        empAsalariado.agregarSalario(200);
+        System.out.println("Salario Empleado Asalariado: " + empAsalariado.calcularSalario());
+
+        // Empleado por Comisión
+        EmpleadoPorComision empComision = new EmpleadoPorComision();
+        empComision.salario = 800;
+        empComision.totalVentas = 5000;
+        empComision.porcentajeComision = 0.10; // 10%
+        empComision.agregarSalario(100);
+        System.out.println("Salario Empleado por Comisión: " + empComision.calcularSalario());
+
+        // Empleado por Horas
+        EmpleadoPorHoras empHoras = new EmpleadoPorHoras();
+        empHoras.horasTrabajadas = 40;
+        empHoras.valorHora = 15;
+        empHoras.agregarSalario(60); // aumenta proporcionalmente al valor hora
+        System.out.println("Salario Empleado por Horas: " + empHoras.calcularSalario());
+    }
+}
