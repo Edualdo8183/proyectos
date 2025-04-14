@@ -42,3 +42,19 @@ public class EmpleadoPorComision extends Empleado {
         salario += extra;
     }
 }
+
+
+public class EmpleadoPorHoras extends Empleado {
+    int horasTrabajadas;
+    double valorHora;
+
+    @Override
+    public double calcularSalario() {
+        return horasTrabajadas * valorHora;
+    }
+
+    @Override
+    public void agregarSalario(double extra) {
+        valorHora += extra / horasTrabajadas;
+    }
+}
