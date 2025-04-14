@@ -11,3 +11,17 @@ public class Empleado {
         // Método general, puede ser sobrescrito
     }
 }
+
+public class EmpleadoAsalariado extends Empleado {
+    double salario;
+
+    @Override
+    public double calcularSalario() {
+        return salario;
+    }
+
+    @Override
+    public void agregarSalario(double extra) {
+        salario += extra;
+    }
+}
