@@ -1,0 +1,80 @@
+/**
+ * @author
+ */
+public class Figura {
+    private String tipo;
+
+    public Figura(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public double calcularArea() {
+        return 0.00;
+    }
+}
+
+/**
+ * @author
+ */
+public class Circulo extends Figura {
+    private double radio;
+
+    public Circulo(double radio, String tipo) {
+        super(tipo);
+        this.radio = radio;
+    }
+
+    public double getRadio() {
+        return radio;
+    }
+
+    public void setRadio(double radio) {
+        this.radio = radio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+}
+
+public class Rectangulo extends Figura {
+    private double alto;
+    private double ancho;
+
+    public Rectangulo(double alto, double ancho, String tipo) {
+        super(tipo);
+        this.alto = alto;
+        this.ancho = ancho;
+    }
+
+    public double getAlto() {
+        return alto;
+    }
+
+    public void setAlto(double alto) {
+        this.alto = alto;
+    }
+
+    public double getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(double ancho) {
+        this.ancho = ancho;
+    }
+
+    @Override
+    public double calcularArea() {
+        return alto * ancho;
+    }
+}
+
