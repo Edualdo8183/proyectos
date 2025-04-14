@@ -25,3 +25,20 @@ public class EmpleadoAsalariado extends Empleado {
         salario += extra;
     }
 }
+
+
+public class EmpleadoPorComision extends Empleado {
+    double salario;
+    double totalVentas;
+    double porcentajeComision;
+
+    @Override
+    public double calcularSalario() {
+        return salario + (totalVentas * porcentajeComision);
+    }
+
+    @Override
+    public void agregarSalario(double extra) {
+        salario += extra;
+    }
+}
