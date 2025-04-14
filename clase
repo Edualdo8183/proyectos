@@ -78,3 +78,26 @@ public class Rectangulo extends Figura {
     }
 }
 
+/**
+ * @author
+ */
+public class Principal {
+    public static void main(String[] args) {
+        Figura[] figuras = new Figura[10];
+
+        for (int i = 0; i < 10; i++) {
+            double aleatorio = Math.random();
+            if (aleatorio > 0.5) {
+                figuras[i] = new Rectangulo(10, 10, "Rectangulo");
+            } else {
+                figuras[i] = new Circulo(5, "Circulo");
+            }
+        }
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Tipo de figura: " + figuras[i].getTipo());
+            System.out.println("Area: " + figuras[i].calcularArea());
+            System.out.println();
+        }
+    }
+}
