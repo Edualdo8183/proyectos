@@ -96,3 +96,13 @@ public class MvcDemo {
         return cliente;
     }
 }
+
+package Controlador;
+
+public class ClienteView {
+    public void imprimirDatosCliente(int id, String nombre, String apellido) {
+        System.out.println("ID: " + id);
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Apellido: " + apellido);
+    }
+}
