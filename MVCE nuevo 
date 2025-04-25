@@ -80,3 +80,59 @@ public class Control {
         vista.mostrarListaEstudiantes(estudiantes);
     }
 }
+
+import Controlador.Control;
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class MvcE {
+    public static void main(String[] args) {
+        Scanner leer = new Scanner(System.in);
+        Vista vista = new Vista();
+        List<Modelo> estudiantes = new ArrayList<>();
+        Control control = new Control(vista, estudiantes);
+
+        int opcion;
+
+        do {
+            System.out.println("\n--- MENÚ ---");
+            System.out.println("1. Agregar estudiante");
+            System.out.println("2. Listar estudiantes");
+            System.out.println("3. Salir");
+            System.out.print("Elige una opción: ");
+            opcion = leer.nextInt();
+            leer.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese ID: ");
+                    int id = leer.nextInt();
+                    leer.nextLine();
+
+                    System.out.print("Ingrese nombre: ");
+                    String nombre = leer.nextLine();
+
+                    System.out.print("Ingrese apellido: ");
+                    String apellido = leer.nextLine();
+
+                    Modelo nuevoEstudiante = new Modelo(id, nombre, apellido);
+                    control.agregarEstudiante(nuevoEstudiante);
+                    break;
+
+                case 2:
+                    control.listarEstudiantes();
+                    break;
+
+                case 3:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 3);
+    }
+}
