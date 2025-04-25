@@ -1,3 +1,5 @@
+
+
 package Modelos;
 
 public class Modelo {
@@ -51,5 +53,30 @@ public class Vista {
                 mostrarEstudiante(estudiante);
             }
         }
+    }
+}
+
+package Controlador;
+
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.List;
+
+public class Control {
+    private Vista vista;
+    private List<Modelo> estudiantes;
+
+    public Control(Vista vista, List<Modelo> estudiantes) {
+        this.vista = vista;
+        this.estudiantes = estudiantes;
+    }
+
+    public void agregarEstudiante(Modelo estudiante) {
+        estudiantes.add(estudiante);
+        System.out.println("Estudiante agregado correctamente.");
+    }
+
+    public void listarEstudiantes() {
+        vista.mostrarListaEstudiantes(estudiantes);
     }
 }
