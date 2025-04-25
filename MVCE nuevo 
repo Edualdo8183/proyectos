@@ -28,3 +28,28 @@ public class Modelo {
         return "ID: " + id + ", Nombre: " + nombre + ", Apellido: " + apellido;
     }
 }
+
+package Vista;
+
+import Modelos.Modelo;
+import java.util.List;
+
+public class Vista {
+    public void mostrarEstudiante(Modelo estudiante) {
+        System.out.println("**** Datos del Estudiante ****");
+        System.out.println("ID -> " + estudiante.getId());
+        System.out.println("Nombre -> " + estudiante.getNombre());
+        System.out.println("Apellido -> " + estudiante.getApellido());
+    }
+
+    public void mostrarListaEstudiantes(List<Modelo> estudiantes) {
+        if (estudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+        } else {
+            System.out.println("**** Lista de Estudiantes ****");
+            for (Modelo estudiante : estudiantes) {
+                mostrarEstudiante(estudiante);
+            }
+        }
+    }
+}
