@@ -136,3 +136,40 @@ public class MvcE {
         } while (opcion != 3);
     }
 }
+
+NUEVOOOLII
+package Controlador;
+
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.List;
+
+public class Control {
+    private Vista vista;
+    private List<Modelo> estudiantes;
+
+    public Control(Vista vista, List<Modelo> estudiantes) {
+        this.vista = vista;
+        this.estudiantes = estudiantes;
+    }
+
+    public void agregarEstudiante(int id, String nombre, String apellido) {
+        Modelo estudiante = new Modelo(id, nombre, apellido);
+        estudiantes.add(estudiante);
+        System.out.println("Estudiante agregado correctamente.");
+    }
+
+    public void listarEstudiantes() {
+        vista.mostrarListaEstudiantes(estudiantes);
+    }
+
+    public void buscarEstudiantePorIdYMostrar(int id) {
+        for (Modelo estudiante : estudiantes) {
+            if (estudiante.getId() == id) {
+                vista.mostrarEstudiante(estudiante);
+                return;
+            }
+        }
+        System.out.println("Estudiante no encontrado.");
+    }
+}
