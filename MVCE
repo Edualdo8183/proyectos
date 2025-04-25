@@ -1,1 +1,146 @@
-E
+import Modelos.Modelo;
+import Vista.Vista;
+
+
+
+
+public class Control {
+    private Vista vista;
+    private Modelo modelo;
+
+    public Control(Vista vista, Modelo modelo) {
+        this.vista = vista;
+        this.modelo = modelo;
+    }
+
+    public int getId(){
+        return modelo.getId();
+    }
+    public void setId(int Id){
+        this.modelo.setId(Id);   
+    }
+    public String getNombre(){
+        return modelo.getNombre();
+    }
+    public void setNombre(String Nombre){
+        this.modelo.setNombre(Nombre);
+    }
+    public String getApellido(){
+        return modelo.getApellido();
+    }
+    public void setApellido(String Apellido){
+        this.modelo.setApellido(Apellido);
+    }
+    public void agregareEstudiantes(){
+        vista.mostrarEstudiante(modelo.getId(),modelo.getNombre(),modelo.getApellido());
+        
+        
+    }
+    public void listarEstudiantes(){
+        vista.mostrarEstudiante(modelo.getId(),modelo.getNombre(),modelo.getApellido());
+        
+    }
+    
+    
+}
+
+package Modelos;
+
+/**
+ *
+ * @author Xavier Fajardo
+ */
+public class Modelo {
+    private int id;
+    private String nombre;
+    private String apellido;
+
+    public Modelo(int id, String nombre, String apellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "Modelo{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + '}';
+    }
+    
+    
+    
+}
+
+package Vista;
+
+
+public class Vista {
+      public void mostrarEstudiante(int id,String nombre,String apellido){
+        System.out.println("****Datos Estudiante****");
+        System.out.println("Id-> "+id);
+        System.out.println("Nombre-> "+nombre);
+        System.out.println("Apellido-> "+apellido);
+        
+    }
+
+    
+   
+    
+}
+
+import Controlador.Control;
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+
+public class MvcE {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Scanner leer = new Scanner(System.in);
+        Vista vista = new Vista();
+        
+        
+        
+        List<Modelo> estudiantes = new ArrayList<>();
+        int opcion;
+
+        do {
+            System.out.println("1. Agregar estudiante");
+            System.out.println("2. Listar estudiantes");
+            System.out.println("3. Salir");
+            System.out.print("Elige una opcion: ");
+            opcion = leer.nextInt();
+            leer.nextLine(); 
+
+                 
+    
+}
