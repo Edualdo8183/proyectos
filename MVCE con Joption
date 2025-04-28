@@ -1,0 +1,166 @@
+package Modelos;
+
+public class Modelo {
+    private int id;
+    private String nombre;
+    private String apellido;
+
+    public Modelo(int id, String nombre, String apellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Nombre: " + nombre + ", Apellido: " + apellido;
+    }
+}
+
+package Vista;
+
+import Modelos.Modelo;
+import java.util.List;
+import javax.swing.JOptionPane;
+
+public class Vista {
+    public void mostrarEstudiante(Modelo estudiante) {
+        String mensaje = "**** Datos del Estudiante ****\n"
+                + "ID -> " + estudiante.getId() + "\n"
+                + "Nombre -> " + estudiante.getNombre() + "\n"
+                + "Apellido -> " + estudiante.getApellido();
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+
+    public void mostrarListaEstudiantes(List<Modelo> estudiantes) {
+        if (estudiantes.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay estudiantes registrados.");
+        } else {
+            StringBuilder lista = new StringBuilder("**** Lista de Estudiantes ****\n");
+            for (Modelo estudiante : estudiantes) {
+                lista.append("ID: ").append(estudiante.getId())
+                     .append(", Nombre: ").append(estudiante.getNombre())
+                     .append(", Apellido: ").append(estudiante.getApellido())
+                     .append("\n");
+            }
+            JOptionPane.showMessageDialog(null, lista.toString());
+        }
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+}
+
+package Controlador;
+
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.List;
+
+public class Control {
+    private Vista vista;
+    private List<Modelo> estudiantes;
+
+    public Control(Vista vista, List<Modelo> estudiantes) {
+        this.vista = vista;
+        this.estudiantes = estudiantes;
+    }
+
+    public void agregarEstudiante(int id, String nombre, String apellido) {
+        Modelo estudiante = new Modelo(id, nombre, apellido);
+        estudiantes.add(estudiante);
+        vista.mostrarMensaje("Estudiante agregado correctamente.");
+    }
+
+    public void listarEstudiantes() {
+        vista.mostrarListaEstudiantes(estudiantes);
+    }
+
+    public void buscarEstudiantePorIdYMostrar(int id) {
+        for (Modelo estudiante : estudiantes) {
+            if (estudiante.getId() == id) {
+                vista.mostrarEstudiante(estudiante);
+                return;
+            }
+        }
+        vista.mostrarMensaje("Estudiante no encontrado.");
+    }
+}
+
+import Controlador.Control;
+import Modelos.Modelo;
+import Vista.Vista;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
+public class MvcE {
+    public static void main(String[] args) {
+        Vista vista = new Vista();
+        List<Modelo> estudiantes = new ArrayList<>();
+        Control control = new Control(vista, estudiantes);
+
+        int opcion = 0;
+
+        do {
+            try {
+                String input = JOptionPane.showInputDialog(
+                        null,
+                        "--- MENÚ ---\n"
+                        + "1. Agregar estudiante\n"
+                        + "2. Listar estudiantes\n"
+                        + "3. Buscar estudiante por ID\n"
+                        + "4. Salir\n"
+                        + "Elige una opción:"
+                );
+                
+                if (input == null) {
+                    // Si cierran el diálogo, salir
+                    break;
+                }
+                
+                opcion = Integer.parseInt(input);
+
+                switch (opcion) {
+                    case 1:
+                        int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID:"));
+                        String nombre = JOptionPane.showInputDialog("Ingrese nombre:");
+                        String apellido = JOptionPane.showInputDialog("Ingrese apellido:");
+                        control.agregarEstudiante(id, nombre, apellido);
+                        break;
+
+                    case 2:
+                        control.listarEstudiantes();
+                        break;
+
+                    case 3:
+                        int idBusqueda = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del estudiante a buscar:"));
+                        control.buscarEstudiantePorIdYMostrar(idBusqueda);
+                        break;
+
+                    case 4:
+                        JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opción no válida.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor ingresa un número válido.");
+            }
+        } while (opcion != 4);
+    }
+}
