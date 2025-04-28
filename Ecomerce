@@ -151,3 +151,12 @@ public class VistaProducto {
         }
     }
 }
+
+import Vista.VistaProducto;
+
+public class Ecommerce {
+    public static void main(String[] args) {
+        VistaProducto vista = new VistaProducto();
+        vista.mostrarMenu();
+    }
+}
