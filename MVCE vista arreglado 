@@ -1,0 +1,156 @@
+package Modelos;
+
+public class Modelo {
+    private int id;
+    private String nombre;
+    private String apellido;
+
+    public Modelo(int id, String nombre, String apellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Nombre: " + nombre + ", Apellido: " + apellido;
+    }
+}
+
+package Controlador;
+
+import Modelos.Modelo;
+import java.util.List;
+
+public class Control {
+    private List<Modelo> estudiantes;
+
+    public Control(List<Modelo> estudiantes) {
+        this.estudiantes = estudiantes;
+    }
+
+    public void agregarEstudiante(int id, String nombre, String apellido) {
+        Modelo estudiante = new Modelo(id, nombre, apellido);
+        estudiantes.add(estudiante);
+    }
+
+    public List<Modelo> listarEstudiantes() {
+        return estudiantes;
+    }
+
+    public Modelo buscarEstudiantePorId(int id) {
+        for (Modelo estudiante : estudiantes) {
+            if (estudiante.getId() == id) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+}
+
+package Vista;
+
+import Controlador.Control;
+import Modelos.Modelo;
+import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
+
+public class Vista {
+    private Control control;
+    private List<Modelo> estudiantes;
+
+    public Vista() {
+        this.estudiantes = new ArrayList<>();
+        this.control = new Control(estudiantes);
+    }
+
+    public void mostrarMenu() {
+        int opcion;
+        do {
+            String[] opciones = {"Agregar estudiante", "Listar estudiantes", "Buscar estudiante por ID", "Salir"};
+            opcion = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione una opción",
+                "Menú Principal",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+            );
+
+            switch (opcion) {
+                case 0 -> agregarEstudiante();
+                case 1 -> listarEstudiantes();
+                case 2 -> buscarEstudiantePorId();
+                case 3 -> JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+                default -> JOptionPane.showMessageDialog(null, "Opción no válida.");
+            }
+        } while (opcion != 3);
+    }
+
+    private void agregarEstudiante() {
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID:"));
+            String nombre = JOptionPane.showInputDialog("Ingrese nombre:");
+            String apellido = JOptionPane.showInputDialog("Ingrese apellido:");
+
+            control.agregarEstudiante(id, nombre, apellido);
+            JOptionPane.showMessageDialog(null, "Estudiante agregado correctamente.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: ID debe ser un número.");
+        }
+    }
+
+    private void listarEstudiantes() {
+        List<Modelo> lista = control.listarEstudiantes();
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay estudiantes registrados.");
+        } else {
+            StringBuilder mensaje = new StringBuilder("**** Lista de Estudiantes ****\n");
+            for (Modelo estudiante : lista) {
+                mensaje.append("ID: ").append(estudiante.getId())
+                        .append(", Nombre: ").append(estudiante.getNombre())
+                        .append(", Apellido: ").append(estudiante.getApellido())
+                        .append("\n");
+            }
+            JOptionPane.showMessageDialog(null, mensaje.toString());
+        }
+    }
+
+    private void buscarEstudiantePorId() {
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del estudiante a buscar:"));
+            Modelo estudiante = control.buscarEstudiantePorId(id);
+            if (estudiante != null) {
+                JOptionPane.showMessageDialog(null, "ID: " + estudiante.getId() + "\nNombre: " + estudiante.getNombre() + "\nApellido: " + estudiante.getApellido());
+            } else {
+                JOptionPane.showMessageDialog(null, "Estudiante no encontrado.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: ID debe ser un número.");
+        }
+    }
+}
+
+import Vista.Vista;
+
+public class MvcE {
+    public static void main(String[] args) {
+        Vista vista = new Vista();
+        vista.mostrarMenu();
+    }
+}
