@@ -8,3 +8,10 @@ public class PagoConTarjeta implements EstrategiaPago {
         System.out.println("Pagando " + monto + " usando Tarjeta de Crédito.");
     }
 }
+
+public class PagoConPayPal implements EstrategiaPago {
+    @Override
+    public void pagar(double monto) {
+        System.out.println("Pagando " + monto + " usando PayPal.");
+    }
+}
