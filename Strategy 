@@ -2,12 +2,16 @@ public interface EstrategiaPago {
     void pagar(double monto);
 }
 
+
+Aaaaaaaaa
 public class PagoConTarjeta implements EstrategiaPago {
     @Override
     public void pagar(double monto) {
         System.out.println("Pagando " + monto + " usando Tarjeta de Crédito.");
     }
 }
+
+AAAAA
 
 public class PagoConPayPal implements EstrategiaPago {
     @Override
@@ -16,6 +20,7 @@ public class PagoConPayPal implements EstrategiaPago {
     }
 }
 
+AAAAAA
 public class CarritoCompras {
     private EstrategiaPago estrategiaPago;
 
@@ -31,3 +36,15 @@ public class CarritoCompras {
         estrategiaPago.pagar(monto);
     }
 }
+
+
+AAAAAA
+public class Main {
+    public static void main(String[] args) {
+        CarritoCompras carrito = new CarritoCompras(new PagoConTarjeta());
+        carrito.checkout(100.0);
+
+        carrito.setEstrategiaPago(new PagoConPayPal());
+        carrito.checkout(200.0);
+    }
+} 
