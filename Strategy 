@@ -15,3 +15,19 @@ public class PagoConPayPal implements EstrategiaPago {
         System.out.println("Pagando " + monto + " usando PayPal.");
     }
 }
+
+public class CarritoCompras {
+    private EstrategiaPago estrategiaPago;
+
+    public CarritoCompras(EstrategiaPago estrategiaPago) {
+        this.estrategiaPago = estrategiaPago;
+    }
+
+    public void setEstrategiaPago(EstrategiaPago estrategiaPago) {
+        this.estrategiaPago = estrategiaPago;
+    }
+
+    public void checkout(double monto) {
+        estrategiaPago.pagar(monto);
+    }
+}
