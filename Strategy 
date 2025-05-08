@@ -1,3 +1,10 @@
 public interface EstrategiaPago {
     void pagar(double monto);
 }
+
+public class PagoConTarjeta implements EstrategiaPago {
+    @Override
+    public void pagar(double monto) {
+        System.out.println("Pagando " + monto + " usando Tarjeta de Crédito.");
+    }
+}
