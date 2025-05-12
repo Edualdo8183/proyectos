@@ -22,13 +22,27 @@ public class Libro {
 
 XXXXXXXX
 
-public class Revista extends Libro {
+public class Revista {
+    private int codigo;
+    private String titulo;
+    private String autor;
     private String editorial;
 
     public Revista(int codigo, String titulo, String autor, String editorial) {
-        super(codigo, titulo, autor);
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.autor = autor;
         this.editorial = editorial;
     }
+
+    public int getCodigo() { return codigo; }
+    public void setCodigo(int codigo) { this.codigo = codigo; }
+
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public String getAutor() { return autor; }
+    public void setAutor(String autor) { this.autor = autor; }
 
     public String getEditorial() { return editorial; }
     public void setEditorial(String editorial) { this.editorial = editorial; }
