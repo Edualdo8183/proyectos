@@ -1,0 +1,139 @@
+public class Libro {
+    private int codigo;
+    private String titulo;
+    private String autor;
+
+    public Libro(int codigo, String titulo, String autor) {
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.autor = autor;
+    }
+
+    public int getCodigo() { return codigo; }
+    public void setCodigo(int codigo) { this.codigo = codigo; }
+
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public String getAutor() { return autor; }
+    public void setAutor(String autor) { this.autor = autor; }
+}
+
+
+XXXXXXXX
+
+public class Revista extends Libro {
+    private String editorial;
+
+    public Revista(int codigo, String titulo, String autor, String editorial) {
+        super(codigo, titulo, autor);
+        this.editorial = editorial;
+    }
+
+    public String getEditorial() { return editorial; }
+    public void setEditorial(String editorial) { this.editorial = editorial; }
+}
+
+XXXXXXXX
+
+import java.util.Scanner;
+
+public class Vista {
+    private Scanner sc = new Scanner(System.in);
+
+    public void mostrarMensaje(String msg) {
+        System.out.println(msg);
+    }
+
+    public String obtenerTexto() {
+        return sc.nextLine();
+    }
+
+    public int obtenerInteger() {
+        return Integer.parseInt(sc.nextLine());
+    }
+}
+
+XXXXXXXXXX
+
+public class LibroControlador {
+    private Libro modeloLibro;
+    private Vista vista;
+
+    public LibroControlador(Vista vista) {
+        this.vista = vista;
+    }
+
+    public void agregarLibro(int cod, String tit, String autor) {
+        modeloLibro = new Libro(cod, tit, autor);
+    }
+
+    public void listarLibro() {
+        vista.mostrarMensaje("Libro: " + modeloLibro.getTitulo() + " - " + modeloLibro.getAutor());
+    }
+}
+
+
+XXXXXXXX
+public class RevistaControlador {
+    private Revista modeloRevista;
+    private Vista vista;
+
+    public RevistaControlador(Vista vista) {
+        this.vista = vista;
+    }
+
+    public void agregarRevista(int cod, String tit, String autor, String editorial) {
+        modeloRevista = new Revista(cod, tit, autor, editorial);
+    }
+
+    public void listarRevista() {
+        vista.mostrarMensaje("Revista: " + modeloRevista.getTitulo() + " - " + modeloRevista.getAutor() +
+                             " - " + modeloRevista.getEditorial());
+    }
+}
+
+XXXXXXXXX
+
+public class Main {
+    public static void main(String[] args) {
+        Vista vista = new Vista();
+
+        // Libro
+        LibroControlador libroCtrl = new LibroControlador(vista);
+        vista.mostrarMensaje("Ingrese datos del libro:");
+        Libro libro = ingresarDatosLibro(vista);
+        libroCtrl.agregarLibro(libro.getCodigo(), libro.getTitulo(), libro.getAutor());
+        libroCtrl.listarLibro();
+
+        // Revista
+        RevistaControlador revistaCtrl = new RevistaControlador(vista);
+        vista.mostrarMensaje("Ingrese datos de la revista:");
+        Revista revista = ingresarDatosRevista(vista);
+        revistaCtrl.agregarRevista(revista.getCodigo(), revista.getTitulo(),
+                                   revista.getAutor(), revista.getEditorial());
+        revistaCtrl.listarRevista();
+    }
+
+    public static Libro ingresarDatosLibro(Vista vista) {
+        vista.mostrarMensaje("Código:");
+        int cod = vista.obtenerInteger();
+        vista.mostrarMensaje("Título:");
+        String titulo = vista.obtenerTexto();
+        vista.mostrarMensaje("Autor:");
+        String autor = vista.obtenerTexto();
+        return new Libro(cod, titulo, autor);
+    }
+
+    public static Revista ingresarDatosRevista(Vista vista) {
+        vista.mostrarMensaje("Código:");
+        int cod = vista.obtenerInteger();
+        vista.mostrarMensaje("Título:");
+        String titulo = vista.obtenerTexto();
+        vista.mostrarMensaje("Autor:");
+        String autor = vista.obtenerTexto();
+        vista.mostrarMensaje("Editorial:");
+        String editorial = vista.obtenerTexto();
+        return new Revista(cod, titulo, autor, editorial);
+    }
+}
