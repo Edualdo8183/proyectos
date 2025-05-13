@@ -105,3 +105,137 @@ public class AppEstudiantes {
         controlador.iniciar();
     }
 }
+
+CÓDIGO NUEVO AAAAAAAAAAAAAAAAA
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+public class VistaEstudianteGUI extends JFrame {
+    private JTextField campoId;
+    private JTextField campoNombre;
+    private JButton botonAgregar;
+    private JButton botonMostrar;
+    private JTextArea areaEstudiantes;
+
+    public VistaEstudianteGUI() {
+        setTitle("Gestión de Estudiantes");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+
+        // Panel principal
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Panel de entrada
+        JPanel panelEntrada = new JPanel(new GridLayout(3, 2));
+        panelEntrada.add(new JLabel("ID:"));
+        campoId = new JTextField();
+        panelEntrada.add(campoId);
+
+        panelEntrada.add(new JLabel("Nombre:"));
+        campoNombre = new JTextField();
+        panelEntrada.add(campoNombre);
+
+        botonAgregar = new JButton("Agregar Estudiante");
+        panelEntrada.add(botonAgregar);
+
+        botonMostrar = new JButton("Mostrar Lista");
+        panelEntrada.add(botonMostrar);
+
+        // Área de texto para la lista
+        areaEstudiantes = new JTextArea();
+        areaEstudiantes.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(areaEstudiantes);
+
+        panel.add(panelEntrada, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        add(panel);
+    }
+
+    public String getIdTexto() {
+        return campoId.getText();
+    }
+
+    public String getNombreTexto() {
+        return campoNombre.getText();
+    }
+
+    public void mostrarEstudiantes(List<Estudiante> estudiantes) {
+        areaEstudiantes.setText("");
+        if (estudiantes.isEmpty()) {
+            areaEstudiantes.setText("No hay estudiantes registrados.");
+        } else {
+            for (Estudiante e : estudiantes) {
+                areaEstudiantes.append(e.toString() + "\n");
+            }
+        }
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    public void agregarOyenteAgregar(ActionListener listener) {
+        botonAgregar.addActionListener(listener);
+    }
+
+    public void agregarOyenteMostrar(ActionListener listener) {
+        botonMostrar.addActionListener(listener);
+    }
+} 
+
+Controlador:
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ControladorEstudiante {
+    private List<Estudiante> estudiantes = new ArrayList<>();
+    private VistaEstudianteGUI vista;
+
+    public ControladorEstudiante(VistaEstudianteGUI vista) {
+        this.vista = vista;
+
+        this.vista.agregarOyenteAgregar(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int id = Integer.parseInt(vista.getIdTexto());
+                    String nombre = vista.getNombreTexto();
+                    if (nombre.isEmpty()) {
+                        vista.mostrarMensaje("El nombre no puede estar vacío.");
+                        return;
+                    }
+                    estudiantes.add(new Estudiante(id, nombre));
+                    vista.mostrarMensaje("Estudiante agregado correctamente.");
+                } catch (NumberFormatException ex) {
+                    vista.mostrarMensaje("El ID debe ser un número.");
+                }
+            }
+        });
+
+        this.vista.agregarOyenteMostrar(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vista.mostrarEstudiantes(estudiantes);
+            }
+        });
+    }
+
+    public void iniciar() {
+        vista.setVisible(true);
+    }
+} 
+
+
+public class AppEstudiantes {
+    public static void main(String[] args) {
+        VistaEstudianteGUI vista = new VistaEstudianteGUI();
+        ControladorEstudiante controlador = new ControladorEstudiante(vista);
+        controlador.iniciar();
+    }
+}
