@@ -20,3 +20,43 @@ public class Estudiante {
         return "ID: " + id + ", Nombre: " + nombre;
     }
 }
+
+import java.util.List;
+import java.util.Scanner;
+
+public class VistaEstudiante {
+    private Scanner scanner = new Scanner(System.in);
+
+    public int mostrarMenu() {
+        System.out.println("\n--- Menú ---");
+        System.out.println("1. Agregar estudiante");
+        System.out.println("2. Ver lista de estudiantes");
+        System.out.println("3. Salir");
+        System.out.print("Elige una opción: ");
+        return scanner.nextInt();
+    }
+
+    public Estudiante pedirDatosEstudiante() {
+        System.out.print("Ingrese ID del estudiante: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // limpiar buffer
+        System.out.print("Ingrese nombre del estudiante: ");
+        String nombre = scanner.nextLine();
+        return new Estudiante(id, nombre);
+    }
+
+    public void mostrarEstudiantes(List<Estudiante> estudiantes) {
+        System.out.println("\n--- Lista de estudiantes ---");
+        if (estudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+        } else {
+            for (Estudiante e : estudiantes) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
+}
