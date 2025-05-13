@@ -97,3 +97,11 @@ public class ControladorEstudiante {
         }
     }
 }
+
+public class AppEstudiantes {
+    public static void main(String[] args) {
+        VistaEstudiante vista = new VistaEstudiante();
+        ControladorEstudiante controlador = new ControladorEstudiante(vista);
+        controlador.iniciar();
+    }
+}
