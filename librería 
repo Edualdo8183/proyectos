@@ -1,7 +1,11 @@
 public class Libro {
-    private int codigo;
-    private String titulo;
-    private String autor;
+    protected int codigo;
+    protected String titulo;
+    protected String autor;
+
+    public Libro() {
+        // Constructor vacío requerido para herencia sin super
+    }
 
     public Libro(int codigo, String titulo, String autor) {
         this.codigo = codigo;
@@ -9,23 +13,15 @@ public class Libro {
         this.autor = autor;
     }
 
-    public int getCodigo() { return codigo; }
-    public void setCodigo(int codigo) { this.codigo = codigo; }
-
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-
-    public String getAutor() { return autor; }
-    public void setAutor(String autor) { this.autor = autor; }
+    public String toString() {
+        return "Libro: " + titulo + " - " + autor;
+    }
 }
 
 
 XXXXXXXX
 
-public class Revista {
-    private int codigo;
-    private String titulo;
-    private String autor;
+public class Revista extends Libro {
     private String editorial;
 
     public Revista(int codigo, String titulo, String autor, String editorial) {
@@ -35,17 +31,13 @@ public class Revista {
         this.editorial = editorial;
     }
 
-    public int getCodigo() { return codigo; }
-    public void setCodigo(int codigo) { this.codigo = codigo; }
+    public String getEditorial() {
+        return editorial;
+    }
 
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-
-    public String getAutor() { return autor; }
-    public void setAutor(String autor) { this.autor = autor; }
-
-    public String getEditorial() { return editorial; }
-    public void setEditorial(String editorial) { this.editorial = editorial; }
+    public String toString() {
+        return "Revista: " + titulo + " - " + autor + " - " + editorial;
+    }
 }
 
 XXXXXXXX
@@ -59,51 +51,92 @@ public class Vista {
         System.out.println(msg);
     }
 
-    public String obtenerTexto() {
+    public String leerTexto() {
         return sc.nextLine();
     }
 
-    public int obtenerInteger() {
+    public int leerEntero() {
         return Integer.parseInt(sc.nextLine());
+    }
+
+    public void mostrarMenu() {
+        System.out.println("\n--- MENÚ ---");
+        System.out.println("1. Agregar libro o revista");
+        System.out.println("2. Ver lista");
+        System.out.println("3. Salir");
+        System.out.print("Seleccione opción: ");
     }
 }
 
 XXXXXXXXXX
 
+import java.util.ArrayList;
+
 public class LibroControlador {
-    private Libro modeloLibro;
+    private ArrayList<Libro> libros = new ArrayList<>();
     private Vista vista;
 
     public LibroControlador(Vista vista) {
         this.vista = vista;
     }
 
-    public void agregarLibro(int cod, String tit, String autor) {
-        modeloLibro = new Libro(cod, tit, autor);
+    public void agregarLibro() {
+        vista.mostrarMensaje("Código:");
+        int codigo = vista.leerEntero();
+        vista.mostrarMensaje("Título:");
+        String titulo = vista.leerTexto();
+        vista.mostrarMensaje("Autor:");
+        String autor = vista.leerTexto();
+
+        libros.add(new Libro(codigo, titulo, autor));
+        vista.mostrarMensaje("Libro agregado.");
     }
 
-    public void listarLibro() {
-        vista.mostrarMensaje("Libro: " + modeloLibro.getTitulo() + " - " + modeloLibro.getAutor());
+    public void listarLibros() {
+        if (libros.isEmpty()) {
+            vista.mostrarMensaje("No hay libros registrados.");
+        } else {
+            for (Libro l : libros) {
+                vista.mostrarMensaje(l.toString());
+            }
+        }
     }
 }
 
 
 XXXXXXXX
+import java.util.ArrayList;
+
 public class RevistaControlador {
-    private Revista modeloRevista;
+    private ArrayList<Revista> revistas = new ArrayList<>();
     private Vista vista;
 
     public RevistaControlador(Vista vista) {
         this.vista = vista;
     }
 
-    public void agregarRevista(int cod, String tit, String autor, String editorial) {
-        modeloRevista = new Revista(cod, tit, autor, editorial);
+    public void agregarRevista() {
+        vista.mostrarMensaje("Código:");
+        int codigo = vista.leerEntero();
+        vista.mostrarMensaje("Título:");
+        String titulo = vista.leerTexto();
+        vista.mostrarMensaje("Autor:");
+        String autor = vista.leerTexto();
+        vista.mostrarMensaje("Editorial:");
+        String editorial = vista.leerTexto();
+
+        revistas.add(new Revista(codigo, titulo, autor, editorial));
+        vista.mostrarMensaje("Revista agregada.");
     }
 
-    public void listarRevista() {
-        vista.mostrarMensaje("Revista: " + modeloRevista.getTitulo() + " - " + modeloRevista.getAutor() +
-                             " - " + modeloRevista.getEditorial());
+    public void listarRevistas() {
+        if (revistas.isEmpty()) {
+            vista.mostrarMensaje("No hay revistas registradas.");
+        } else {
+            for (Revista r : revistas) {
+                vista.mostrarMensaje(r.toString());
+            }
+        }
     }
 }
 
@@ -112,42 +145,43 @@ XXXXXXXXX
 public class Main {
     public static void main(String[] args) {
         Vista vista = new Vista();
-
-        // Libro
         LibroControlador libroCtrl = new LibroControlador(vista);
-        vista.mostrarMensaje("Ingrese datos del libro:");
-        Libro libro = ingresarDatosLibro(vista);
-        libroCtrl.agregarLibro(libro.getCodigo(), libro.getTitulo(), libro.getAutor());
-        libroCtrl.listarLibro();
-
-        // Revista
         RevistaControlador revistaCtrl = new RevistaControlador(vista);
-        vista.mostrarMensaje("Ingrese datos de la revista:");
-        Revista revista = ingresarDatosRevista(vista);
-        revistaCtrl.agregarRevista(revista.getCodigo(), revista.getTitulo(),
-                                   revista.getAutor(), revista.getEditorial());
-        revistaCtrl.listarRevista();
-    }
 
-    public static Libro ingresarDatosLibro(Vista vista) {
-        vista.mostrarMensaje("Código:");
-        int cod = vista.obtenerInteger();
-        vista.mostrarMensaje("Título:");
-        String titulo = vista.obtenerTexto();
-        vista.mostrarMensaje("Autor:");
-        String autor = vista.obtenerTexto();
-        return new Libro(cod, titulo, autor);
-    }
+        int opcion = 0;
+        while (opcion != 3) {
+            vista.mostrarMenu();
+            opcion = vista.leerEntero();
 
-    public static Revista ingresarDatosRevista(Vista vista) {
-        vista.mostrarMensaje("Código:");
-        int cod = vista.obtenerInteger();
-        vista.mostrarMensaje("Título:");
-        String titulo = vista.obtenerTexto();
-        vista.mostrarMensaje("Autor:");
-        String autor = vista.obtenerTexto();
-        vista.mostrarMensaje("Editorial:");
-        String editorial = vista.obtenerTexto();
-        return new Revista(cod, titulo, autor, editorial);
+            switch (opcion) {
+                case 1:
+                    vista.mostrarMensaje("¿Agregar (1) Libro o (2) Revista?");
+                    int tipo = vista.leerEntero();
+                    if (tipo == 1) {
+                        libroCtrl.agregarLibro();
+                    } else if (tipo == 2) {
+                        revistaCtrl.agregarRevista();
+                    } else {
+                        vista.mostrarMensaje("Opción inválida.");
+                    }
+                    break;
+                case 2:
+                    vista.mostrarMensaje("¿Ver lista de (1) Libros o (2) Revistas?");
+                    int verTipo = vista.leerEntero();
+                    if (verTipo == 1) {
+                        libroCtrl.listarLibros();
+                    } else if (verTipo == 2) {
+                        revistaCtrl.listarRevistas();
+                    } else {
+                        vista.mostrarMensaje("Opción inválida.");
+                    }
+                    break;
+                case 3:
+                    vista.mostrarMensaje("Saliendo...");
+                    break;
+                default:
+                    vista.mostrarMensaje("Opción inválida.");
+            }
+        }
     }
 }
