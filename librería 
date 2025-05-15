@@ -87,7 +87,6 @@ public class LibroControlador {
         String titulo = vista.leerTexto();
         vista.mostrarMensaje("Autor:");
         String autor = vista.leerTexto();
-
         libros.add(new Libro(codigo, titulo, autor));
         vista.mostrarMensaje("Libro agregado.");
     }
@@ -100,6 +99,10 @@ public class LibroControlador {
                 vista.mostrarMensaje(l.toString());
             }
         }
+    }
+
+    public ArrayList<Libro> getLibros() {
+        return libros;
     }
 }
 
@@ -124,7 +127,6 @@ public class RevistaControlador {
         String autor = vista.leerTexto();
         vista.mostrarMensaje("Editorial:");
         String editorial = vista.leerTexto();
-
         revistas.add(new Revista(codigo, titulo, autor, editorial));
         vista.mostrarMensaje("Revista agregada.");
     }
@@ -138,9 +140,15 @@ public class RevistaControlador {
             }
         }
     }
+
+    public ArrayList<Revista> getRevistas() {
+        return revistas;
+    }
 }
 
 XXXXXXXXX
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -166,12 +174,24 @@ public class Main {
                     }
                     break;
                 case 2:
-                    vista.mostrarMensaje("¿Ver lista de (1) Libros o (2) Revistas?");
+                    vista.mostrarMensaje("¿Ver lista de (1) Libros, (2) Revistas o (3) Ambos?");
                     int verTipo = vista.leerEntero();
                     if (verTipo == 1) {
                         libroCtrl.listarLibros();
                     } else if (verTipo == 2) {
                         revistaCtrl.listarRevistas();
+                    } else if (verTipo == 3) {
+                        ArrayList<Libro> todos = new ArrayList<>();
+                        todos.addAll(libroCtrl.getLibros());
+                        todos.addAll(revistaCtrl.getRevistas());
+
+                        if (todos.isEmpty()) {
+                            vista.mostrarMensaje("No hay elementos registrados.");
+                        } else {
+                            for (Libro l : todos) {
+                                vista.mostrarMensaje(l.toString());
+                            }
+                        }
                     } else {
                         vista.mostrarMensaje("Opción inválida.");
                     }
