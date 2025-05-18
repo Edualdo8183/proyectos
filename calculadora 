@@ -92,3 +92,4 @@ public double cubo(){
     this.total = this.total * this.total * this.total;
     return this.total;
 }
+
