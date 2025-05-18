@@ -124,3 +124,33 @@ public class controlador implements ActionListener {
         this.vista.BtnBorrar.addActionListener(this);
     }
 }
+
+Aquí falta eso
+
+@Override
+public void actionPerformed(ActionEvent e) {
+    modelo.set_valor1(Integer.valueOf(vista.TxtMemoria1.getText()));
+    modelo.set_valor2(Integer.valueOf(vista.TxtMemoria2.getText()));
+
+    if (e.getSource() == vista.BtnSuma) modelo.sumar();
+    if (e.getSource() == vista.BtnResta) modelo.restar();
+    if (e.getSource() == vista.BtnPorcentaje) modelo.porcentaje();
+    if (e.getSource() == vista.BtnMultiplicar) modelo.multiplicar();
+    if (e.getSource() == vista.BtnDividir) modelo.dividir();
+    if (e.getSource() == vista.BtnInverso) modelo.inversa();
+    if (e.getSource() == vista.BtnFa) modelo.factorial();
+    if (e.getSource() == vista.BtnRaiz) modelo.raiz();
+    if (e.getSource() == vista.BtnPI) modelo.pi();
+    if (e.getSource() == vista.BtnCambioSig) modelo.CambioSigno();
+    if (e.getSource() == vista.BtnXcuadrado) modelo.Xcuadrado();
+    if (e.getSource() == vista.BtnCubo) modelo.cubo();
+    if (e.getSource() == vista.BtnE) modelo.E();
+
+    vista.JlbResultado.setText(String.valueOf(modelo.get_total()));
+
+    if (e.getSource() == vista.BtnBorrar) {
+        vista.TxtMemoria1.setText("");
+        vista.TxtMemoria2.setText("");
+        vista.JlbResultado.setText("");
+    }
+}
