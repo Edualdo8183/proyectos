@@ -1,0 +1,94 @@
+package Modelo;
+
+public class modelo {
+    private double valor1 = 0;
+    private double valor2 = 0;
+    private double total = 0;
+
+    public modelo() {}
+
+    public void set_valor1(double val) {
+        this.valor1 = val;
+    }
+
+    public double get_valor1() {
+        return this.valor1;
+    }
+
+    public void set_valor2(double val) {
+        this.valor2 = val;
+    }
+
+    public double get_valor2() {
+        return this.valor2;
+    }
+
+    public double sumar() {
+        this.total = this.valor1 + this.valor2;
+        return this.total;
+    }
+}
+
+public double restar(){
+    this.total = this.valor1 - this.valor2;
+    return this.total;
+}
+
+public double porcentaje(){
+    this.total = (this.total * this.total) / 100;
+    return this.total;
+}
+
+public double multiplicar(){
+    this.total = this.valor1 * this.valor2;
+    return this.total;
+}
+
+public double dividir(){
+    this.total = this.valor1 / this.valor2;
+    return this.total;
+}
+
+public double raiz(){
+    this.total = (double)Math.sqrt(this.total);
+    return this.total;
+}
+
+public double factorial(){
+    double a, b, c;
+    c = 1;
+    b = this.total;
+    for(a = 1; a <= b; a++){
+        c = c * a;
+    }
+    this.total = c;
+    return this.total;
+}
+
+public double inversa(){
+    this.total = (1 / this.total);
+    return this.total;
+}
+
+public double pi(){
+    this.total = (double)Math.PI;
+    return this.total;
+}
+
+public double CambioSigno(){
+    double n1 = 0, n2, n3;
+    n2 = this.total;
+    n3 = n1 - n2;
+    this.total = n3;
+    return this.total;
+}
+
+public double Xcuadrado(){
+    this.total = this.total * this.total;
+    return this.total;
+}
+
+public double cubo(){
+    this.total = this.total * this.total * this.total;
+    return this.total;
+}
