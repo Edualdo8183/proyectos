@@ -93,3 +93,34 @@ public double cubo(){
     return this.total;
 }
 
+package Controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import Modelo.modelo;
+import Vista.vista;
+
+public class controlador implements ActionListener {
+    private final vista vista;
+    private final modelo modelo;
+
+    public controlador(vista vista, modelo modelo) {
+        this.vista = vista;
+        this.modelo = modelo;
+
+        this.vista.BtnSuma.addActionListener(this);
+        this.vista.BtnResta.addActionListener(this);
+        this.vista.BtnPorcentaje.addActionListener(this);
+        this.vista.BtnMultiplicar.addActionListener(this);
+        this.vista.BtnDividir.addActionListener(this);
+        this.vista.BtnInverso.addActionListener(this);
+        this.vista.BtnFa.addActionListener(this);
+        this.vista.BtnRaiz.addActionListener(this);
+        this.vista.BtnPI.addActionListener(this);
+        this.vista.BtnCambioSig.addActionListener(this);
+        this.vista.BtnXcuadrado.addActionListener(this);
+        this.vista.BtnCubo.addActionListener(this);
+        this.vista.BtnE.addActionListener(this);
+        this.vista.BtnBorrar.addActionListener(this);
+    }
+}
