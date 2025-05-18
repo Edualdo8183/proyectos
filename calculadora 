@@ -154,3 +154,25 @@ public void actionPerformed(ActionEvent e) {
         vista.JlbResultado.setText("");
     }
 }
+
+package examenfinal;
+
+import Controlador.controlador;
+import Modelo.modelo;
+import Vista.vista;
+
+/**
+ *
+ * @author Ruth
+ */
+public class Examenfinal {
+
+    public static void main(String[] args) {
+        modelo modelo = new modelo();
+        vista vista = new vista();
+        controlador controlador = new controlador(vista, modelo);
+
+        controlador.iniciar_vista();
+        vista.setVisible(true);
+    }
+}
