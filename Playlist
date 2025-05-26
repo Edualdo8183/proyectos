@@ -1,0 +1,158 @@
+public class Musica {
+    private String titulo;
+    private String autor;
+
+    public Musica(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    @Override
+    public String toString() {
+        return "Música: " + titulo + " (Autor: " + autor + ")";
+    }
+}
+
+public class Pelicula {
+    private String titulo;
+    private String director;
+
+    public Pelicula(String titulo, String director) {
+        this.titulo = titulo;
+        this.director = director;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    @Override
+    public String toString() {
+        return "Película: " + titulo + " (Director: " + director + ")";
+    }
+}
+
+import java.util.ArrayList;
+
+public class ListaModelo {
+    private ArrayList<Musica> listaMusica = new ArrayList<>();
+    private ArrayList<Pelicula> listaPeliculas = new ArrayList<>();
+
+    public void agregarMusica(String titulo, String autor) {
+        listaMusica.add(new Musica(titulo, autor));
+    }
+
+    public void agregarPelicula(String titulo, String director) {
+        listaPeliculas.add(new Pelicula(titulo, director));
+    }
+
+    public ArrayList<Musica> getListaMusica() {
+        return listaMusica;
+    }
+
+    public ArrayList<Pelicula> getListaPeliculas() {
+        return listaPeliculas;
+    }
+}
+
+import java.util.Scanner;
+
+public class VistaConsola {
+    private Scanner scanner = new Scanner(System.in);
+
+    public void mostrarMenu() {
+        System.out.println("\n--- MENÚ ---");
+        System.out.println("1. Agregar música");
+        System.out.println("2. Agregar película");
+        System.out.println("3. Ver lista de música");
+        System.out.println("4. Ver lista de películas");
+        System.out.println("5. Salir");
+        System.out.print("Selecciona una opción: ");
+    }
+
+    public int leerOpcion() {
+        return scanner.nextInt();
+    }
+
+    public String leerTexto(String mensaje) {
+        System.out.print(mensaje);
+        scanner.nextLine(); // limpiar buffer
+        return scanner.nextLine();
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
+
+    public void mostrarLista(Object[] lista) {
+        for (Object item : lista) {
+            System.out.println(item);
+        }
+    }
+}
+
+public class Controlador {
+    private ListaModelo modelo;
+    private VistaConsola vista;
+
+    public Controlador(ListaModelo modelo, VistaConsola vista) {
+        this.modelo = modelo;
+        this.vista = vista;
+    }
+
+    public void iniciar() {
+        int opcion;
+        do {
+            vista.mostrarMenu();
+            opcion = vista.leerOpcion();
+            switch (opcion) {
+                case 1:
+                    String tituloMusica = vista.leerTexto("Título de la música: ");
+                    String autor = vista.leerTexto("Autor de la música: ");
+                    modelo.agregarMusica(tituloMusica, autor);
+                    vista.mostrarMensaje("Música agregada.");
+                    break;
+                case 2:
+                    String tituloPelicula = vista.leerTexto("Título de la película: ");
+                    String director = vista.leerTexto("Director de la película: ");
+                    modelo.agregarPelicula(tituloPelicula, director);
+                    vista.mostrarMensaje("Película agregada.");
+                    break;
+                case 3:
+                    vista.mostrarMensaje("Lista de música:");
+                    vista.mostrarLista(modelo.getListaMusica().toArray());
+                    break;
+                case 4:
+                    vista.mostrarMensaje("Lista de películas:");
+                    vista.mostrarLista(modelo.getListaPeliculas().toArray());
+                    break;
+                case 5:
+                    vista.mostrarMensaje("Saliendo...");
+                    break;
+                default:
+                    vista.mostrarMensaje("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ListaModelo modelo = new ListaModelo();
+        VistaConsola vista = new VistaConsola();
+        Controlador controlador = new Controlador(modelo, vista);
+        controlador.iniciar();
+    }
+}
