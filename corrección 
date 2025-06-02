@@ -1,0 +1,129 @@
+package modelo;
+
+public class CalculoModelo {
+    private final double precioEntrada = 12;
+
+    public double calcularTotal(int asistentes) {
+        return precioEntrada * asistentes;
+    }
+
+    public double calcularDescuento(double total, int formaPago) {
+        double porcentaje = switch (formaPago) {
+            case 1 -> 5;     // Cheque
+            case 2 -> 12;    // Efectivo
+            default -> 0;    // Otra
+        };
+        return total * porcentaje / 100;
+    }
+
+    public double calcularPrecioFinal(double total, double descuento) {
+        return total - descuento;
+    }
+}
+
+
+XXXX
+
+package vista;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class CalculoVista extends JPanel {
+    public JTextField txtAsistentes = new JTextField(10);
+    public JComboBox<String> cbFormaPago = new JComboBox<>(new String[] {
+        "Cheque", "Efectivo", "Otra"
+    });
+    public JButton btnCalcular = new JButton("Calcular");
+    public JLabel lblTotal = new JLabel("Total:");
+    public JLabel lblDescuento = new JLabel("Descuento:");
+    public JLabel lblFinal = new JLabel("Precio Final:");
+
+    public CalculoVista() {
+        setLayout(new GridLayout(6, 2, 5, 5));
+
+        add(new JLabel("Asistentes:"));
+        add(txtAsistentes);
+        add(new JLabel("Forma de Pago:"));
+        add(cbFormaPago);
+        add(new JLabel(""));
+        add(btnCalcular);
+        add(lblTotal);
+        add(new JLabel(""));
+        add(lblDescuento);
+        add(new JLabel(""));
+        add(lblFinal);
+        add(new JLabel(""));
+    }
+}
+
+Xxx
+
+package controlador;
+
+import modelo.CalculoModelo;
+import vista.CalculoVista;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CalculoControlador {
+    private final CalculoModelo modelo;
+    private final CalculoVista vista;
+
+    public CalculoControlador(CalculoModelo modelo, CalculoVista vista) {
+        this.modelo = modelo;
+        this.vista = vista;
+
+        this.vista.btnCalcular.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcular();
+            }
+        });
+    }
+
+    private void calcular() {
+        try {
+            int asistentes = Integer.parseInt(vista.txtAsistentes.getText());
+            int formaPago = vista.cbFormaPago.getSelectedIndex() + 1;
+
+            double total = modelo.calcularTotal(asistentes);
+            double descuento = modelo.calcularDescuento(total, formaPago);
+            double precioFinal = modelo.calcularPrecioFinal(total, descuento);
+
+            vista.lblTotal.setText("Total: $" + total);
+            vista.lblDescuento.setText("Descuento: $" + descuento);
+            vista.lblFinal.setText("Precio Final: $" + precioFinal);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista, "Ingrese un número válido de asistentes.");
+        }
+    }
+}
+
+
+Xxx
+
+
+import javax.swing.*;
+import modelo.CalculoModelo;
+import vista.CalculoVista;
+import controlador.CalculoControlador;
+
+public class Main {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Calculadora de Entradas");
+            CalculoVista panel = new CalculoVista();
+            CalculoModelo modelo = new CalculoModelo();
+            new CalculoControlador(modelo, panel);
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setContentPane(panel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}
