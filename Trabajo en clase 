@@ -1,0 +1,42 @@
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.*;
+
+/**
+ * @author Ing. María de Lourdes Loaiza
+ * uso del BorderLayout en los paneles
+ */
+public class BorderLayout1 {
+    public static void main(String[] args) {
+        JFrame miMarco = new JFrame();
+        JPanel panelMenuNorte = new JPanel();
+        JPanel panelGeneral = new JPanel();
+
+        JButton btnOpcion1 = new JButton("Opcion 1");
+        JButton btnOpcion2 = new JButton("Opcion 2");
+        JButton btnOpcion3 = new JButton("Opcion 3");
+
+        JButton btnSur = new JButton("Sur");
+        JButton btnEste = new JButton("Este");
+        JButton btnOeste = new JButton("Oeste");
+        JButton btnCentro = new JButton("Centro");
+
+        panelGeneral.setLayout(new BorderLayout());
+        panelMenuNorte.getLayout(new FlowLayout());
+
+        panelMenuNorte.add(btnOpcion1);
+        panelMenuNorte.add(btnOpcion2);
+        panelMenuNorte.add(btnOpcion3);
+
+        miMarco.add(panelGeneral);
+        panelGeneral.add(panelMenuNorte, BorderLayout.NORTH);
+        panelGeneral.add(btnCentro, BorderLayout.CENTER);
+        panelGeneral.add(btnSur, BorderLayout.SOUTH);
+        panelGeneral.add(btnEste, BorderLayout.EAST);
+        panelGeneral.add(btnOeste, BorderLayout.WEST);
+
+        miMarco.setSize(400, 150);
+        miMarco.setTitle("Ventana con BorderLayout");
+        miMarco.setVisible(true);
+    }
+}
