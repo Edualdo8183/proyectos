@@ -21,3 +21,43 @@ public class ClaseAdaptadora extends KeyAdapter {
         }
     }
 }
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Máquina de Escribir");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new BorderLayout());
+
+        JTextArea areaTexto = new JTextArea();
+        areaTexto.setLineWrap(true);
+        areaTexto.setWrapStyleWord(true);
+        frame.add(new JScrollPane(areaTexto), BorderLayout.CENTER);
+
+        JButton btnEscribir = new JButton("Máquina de Escribir");
+        JButton btnSilencio = new JButton("Silencio");
+        JButton btnSalir = new JButton("Salir");
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnEscribir);
+        panelBotones.add(btnSilencio);
+        panelBotones.add(btnSalir);
+
+        frame.add(panelBotones, BorderLayout.SOUTH);
+
+        // Crear instancia del listener
+        ClaseAdaptadora adaptador = new ClaseAdaptadora(areaTexto);
+
+        // Acción de los botones
+        btnEscribir.addActionListener(e -> areaTexto.addKeyListener(adaptador));
+        btnSilencio.addActionListener(e -> areaTexto.removeKeyListener(adaptador));
+        btnSalir.addActionListener(e -> System.exit(0));
+
+        frame.setVisible(true);
+    }
+}
