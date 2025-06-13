@@ -1,0 +1,23 @@
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+
+public class ClaseAdaptadora extends KeyAdapter {
+    private JTextArea areaTexto;
+
+    public ClaseAdaptadora(JTextArea areaTexto) {
+        this.areaTexto = areaTexto;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char tecla = e.getKeyChar();
+
+        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
+            String texto = areaTexto.getText();
+            areaTexto.setText(texto.substring(0, texto.length() - 1));
+        } else {
+            areaTexto.append(String.valueOf(tecla));
+        }
+    }
+}
