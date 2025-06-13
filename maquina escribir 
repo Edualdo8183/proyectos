@@ -61,3 +61,79 @@ public class Main {
         frame.setVisible(true);
     }
 }
+
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+
+public class ClaseAdaptadora extends KeyAdapter {
+    private JTextArea areaTexto;
+
+    public ClaseAdaptadora(JTextArea areaTexto) {
+        this.areaTexto = areaTexto;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char tecla = e.getKeyChar();
+
+        if (tecla == '*') {
+            System.exit(0);  // Salir si se presiona '*'
+        }
+
+        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
+            String texto = areaTexto.getText();
+            areaTexto.setText(texto.substring(0, texto.length() - 1));
+        } else {
+            areaTexto.append(String.valueOf(tecla));
+        }
+
+        e.consume(); // Evita que JTextArea procese la tecla normalmente
+    }
+}
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Máquina de Escribir");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new BorderLayout());
+
+        JTextArea areaTexto = new JTextArea();
+        areaTexto.setLineWrap(true);
+        areaTexto.setWrapStyleWord(true);
+        areaTexto.setEnabled(false);  // Desactivado al inicio
+        frame.add(new JScrollPane(areaTexto), BorderLayout.CENTER);
+
+        JButton btnEscribir = new JButton("Máquina de Escribir");
+        JButton btnSilencio = new JButton("Silencio");
+        JButton btnSalir = new JButton("Salir");
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnEscribir);
+        panelBotones.add(btnSilencio);
+        panelBotones.add(btnSalir);
+
+        frame.add(panelBotones, BorderLayout.SOUTH);
+
+        // Crear instancia del listener
+        ClaseAdaptadora adaptador = new ClaseAdaptadora(areaTexto);
+        areaTexto.addKeyListener(adaptador); // Siempre está agregado
+
+        // Acción de los botones
+        btnEscribir.addActionListener(e -> {
+            areaTexto.setEnabled(true);
+            areaTexto.requestFocusInWindow(); // Enfoca el área de texto
+        });
+
+        btnSilencio.addActionListener(e -> areaTexto.setEnabled(false));
+
+        btnSalir.addActionListener(e -> System.exit(0));
+
+        frame.setVisible(true);
+    }
+}
