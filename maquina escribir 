@@ -1,98 +1,3 @@
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextArea;
-
-public class ClaseAdaptadora extends KeyAdapter {
-    private JTextArea areaTexto;
-
-    public ClaseAdaptadora(JTextArea areaTexto) {
-        this.areaTexto = areaTexto;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        char tecla = e.getKeyChar();
-
-        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
-            String texto = areaTexto.getText();
-            areaTexto.setText(texto.substring(0, texto.length() - 1));
-        } else {
-            areaTexto.append(String.valueOf(tecla));
-        }
-    }
-}
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class Main {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Máquina de Escribir");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLayout(new BorderLayout());
-
-        JTextArea areaTexto = new JTextArea();
-        areaTexto.setLineWrap(true);
-        areaTexto.setWrapStyleWord(true);
-        frame.add(new JScrollPane(areaTexto), BorderLayout.CENTER);
-
-        JButton btnEscribir = new JButton("Máquina de Escribir");
-        JButton btnSilencio = new JButton("Silencio");
-        JButton btnSalir = new JButton("Salir");
-
-        JPanel panelBotones = new JPanel();
-        panelBotones.add(btnEscribir);
-        panelBotones.add(btnSilencio);
-        panelBotones.add(btnSalir);
-
-        frame.add(panelBotones, BorderLayout.SOUTH);
-
-        // Crear instancia del listener
-        ClaseAdaptadora adaptador = new ClaseAdaptadora(areaTexto);
-
-        // Acción de los botones
-        btnEscribir.addActionListener(e -> areaTexto.addKeyListener(adaptador));
-        btnSilencio.addActionListener(e -> areaTexto.removeKeyListener(adaptador));
-        btnSalir.addActionListener(e -> System.exit(0));
-
-        frame.setVisible(true);
-    }
-}
-
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextArea;
-
-public class ClaseAdaptadora extends KeyAdapter {
-    private JTextArea areaTexto;
-
-    public ClaseAdaptadora(JTextArea areaTexto) {
-        this.areaTexto = areaTexto;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        char tecla = e.getKeyChar();
-
-        if (tecla == '*') {
-            System.exit(0);  // Salir si se presiona '*'
-        }
-
-        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
-            String texto = areaTexto.getText();
-            areaTexto.setText(texto.substring(0, texto.length() - 1));
-        } else {
-            areaTexto.append(String.valueOf(tecla));
-        }
-
-        e.consume(); // Evita que JTextArea procese la tecla normalmente
-    }
-}
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -122,7 +27,7 @@ public class Main {
 
         // Crear instancia del listener
         ClaseAdaptadora adaptador = new ClaseAdaptadora(areaTexto);
-        areaTexto.addKeyListener(adaptador); // Siempre está agregado
+        areaTexto.addKeyListener(adaptador); // Siempre activo
 
         // Acción de los botones
         btnEscribir.addActionListener(e -> {
@@ -131,9 +36,48 @@ public class Main {
         });
 
         btnSilencio.addActionListener(e -> areaTexto.setEnabled(false));
-
         btnSalir.addActionListener(e -> System.exit(0));
 
         frame.setVisible(true);
+    }
+}
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+
+public class ClaseAdaptadora extends KeyAdapter {
+    private JTextArea areaTexto;
+    private StringBuilder buffer;
+
+    public ClaseAdaptadora(JTextArea areaTexto) {
+        this.areaTexto = areaTexto;
+        this.buffer = new StringBuilder();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char tecla = e.getKeyChar();
+
+        if (tecla == '*') {
+            System.exit(0);  // Salir si se presiona '*'
+        }
+
+        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
+            String texto = areaTexto.getText();
+            areaTexto.setText(texto.substring(0, texto.length() - 1));
+            buffer.setLength(Math.max(0, buffer.length() - 1));
+        } else {
+            areaTexto.append(String.valueOf(tecla));
+            buffer.append(tecla);
+        }
+
+        // Si el texto acumulado termina en "Limpiar", borra todo
+        if (buffer.toString().endsWith("Limpiar")) {
+            areaTexto.setText("");
+            buffer.setLength(0); // Reinicia el buffer
+        }
+
+        e.consume(); // Evita procesamiento adicional del JTextArea
     }
 }
