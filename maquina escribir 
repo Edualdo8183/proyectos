@@ -1,3 +1,132 @@
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+
+public class ClaseAdaptadora extends KeyAdapter {
+    private JTextArea areaTexto;
+    private StringBuilder buffer;
+
+    public ClaseAdaptadora(JTextArea areaTexto) {
+        this.areaTexto = areaTexto;
+        this.buffer = new StringBuilder();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char tecla = e.getKeyChar();
+
+        if (tecla == '*') {
+            System.out.println("Acción: Se presionó '*'. Cerrando programa.");
+            System.exit(0);
+        }
+
+        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
+            String texto = areaTexto.getText();
+            areaTexto.setText(texto.substring(0, texto.length() - 1));
+            buffer.setLength(Math.max(0, buffer.length() - 1));
+            System.out.println("Acción: Se borró un carácter.");
+        } else {
+            areaTexto.append(String.valueOf(tecla));
+            buffer.append(tecla);
+            System.out.println("Acción: Se escribió '" + tecla + "'");
+        }
+
+        if (buffer.toString().endsWith("Limpiar")) {
+            areaTexto.setText("");
+            buffer.setLength(0);
+            System.out.println("Acción: Se escribió 'Limpiar'. Se borró todo el texto.");
+        }
+
+        e.consume();
+    }
+}
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class EventosVentana extends WindowAdapter {
+    @Override
+    public void windowOpened(WindowEvent e) {
+        System.out.println("Evento de ventana: Abierta");
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        System.out.println("Evento de ventana: Cerrando");
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        System.out.println("Evento de ventana: Cerrada");
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        System.out.println("Evento de ventana: Minimizada");
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        System.out.println("Evento de ventana: Restaurada");
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        System.out.println("Evento de ventana: Activada");
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        System.out.println("Evento de ventana: Desactivada");
+    }
+}
+
+import java.awt.event.*;
+import javax.swing.JTextArea;
+
+public class EventosRaton implements MouseListener, MouseMotionListener {
+    private JTextArea areaTexto;
+
+    public EventosRaton(JTextArea areaTexto) {
+        this.areaTexto = areaTexto;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse: Clic en posición (" + e.getX() + ", " + e.getY() + ")");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println("Mouse: Botón presionado");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        System.out.println("Mouse: Botón liberado");
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        System.out.println("Mouse: Entró al área de texto");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        System.out.println("Mouse: Salió del área de texto");
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        System.out.println("Mouse: Arrastrando en (" + e.getX() + ", " + e.getY() + ")");
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        System.out.println("Mouse: Moviéndose en (" + e.getX() + ", " + e.getY() + ")");
+    }
+}
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,62 +151,37 @@ public class Main {
         panelBotones.add(btnEscribir);
         panelBotones.add(btnSilencio);
         panelBotones.add(btnSalir);
-
         frame.add(panelBotones, BorderLayout.SOUTH);
 
-        // Crear instancia del listener
-        ClaseAdaptadora adaptador = new ClaseAdaptadora(areaTexto);
-        areaTexto.addKeyListener(adaptador); // Siempre activo
+        // Clases externas
+        ClaseAdaptadora teclado = new ClaseAdaptadora(areaTexto);
+        EventosVentana eventosVentana = new EventosVentana();
+        EventosRaton eventosRaton = new EventosRaton(areaTexto);
 
-        // Acción de los botones
+        // Asociar eventos
+        frame.addWindowListener(eventosVentana);
+        areaTexto.addKeyListener(teclado);
+        areaTexto.addMouseListener(eventosRaton);
+        areaTexto.addMouseMotionListener(eventosRaton);
+
+        // Botones
         btnEscribir.addActionListener(e -> {
             areaTexto.setEnabled(true);
-            areaTexto.requestFocusInWindow(); // Enfoca el área de texto
+            areaTexto.requestFocusInWindow();
+            System.out.println("Acción: Escritura activada");
         });
 
-        btnSilencio.addActionListener(e -> areaTexto.setEnabled(false));
-        btnSalir.addActionListener(e -> System.exit(0));
+        btnSilencio.addActionListener(e -> {
+            areaTexto.setEnabled(false);
+            System.out.println("Acción: Escritura desactivada");
+        });
+
+        btnSalir.addActionListener(e -> {
+            System.out.println("Acción: Botón 'Salir' presionado. Cerrando programa.");
+            System.exit(0);
+        });
 
         frame.setVisible(true);
-    }
-}
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextArea;
-
-public class ClaseAdaptadora extends KeyAdapter {
-    private JTextArea areaTexto;
-    private StringBuilder buffer;
-
-    public ClaseAdaptadora(JTextArea areaTexto) {
-        this.areaTexto = areaTexto;
-        this.buffer = new StringBuilder();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        char tecla = e.getKeyChar();
-
-        if (tecla == '*') {
-            System.exit(0);  // Salir si se presiona '*'
-        }
-
-        if (tecla == KeyEvent.VK_BACK_SPACE && areaTexto.getText().length() > 0) {
-            String texto = areaTexto.getText();
-            areaTexto.setText(texto.substring(0, texto.length() - 1));
-            buffer.setLength(Math.max(0, buffer.length() - 1));
-        } else {
-            areaTexto.append(String.valueOf(tecla));
-            buffer.append(tecla);
-        }
-
-        // Si el texto acumulado termina en "Limpiar", borra todo
-        if (buffer.toString().endsWith("Limpiar")) {
-            areaTexto.setText("");
-            buffer.setLength(0); // Reinicia el buffer
-        }
-
-        e.consume(); // Evita procesamiento adicional del JTextArea
+        System.out.println("Programa iniciado correctamente.");
     }
 }
