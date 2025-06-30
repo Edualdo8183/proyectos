@@ -102,3 +102,36 @@ public class Main {
         etiquetaTexto.setText(mensaje);
     }
 }
+
+Internacionalizacion=Internacionalización
+saludo=¡Hola!
+Espanol=Español
+Ingles=Inglés
+Frances=Francés
+Salir=Salir
+Fecha=Fecha actual
+Numero=Número formateado
+Moneda=Precio en moneda
+FormatoTexto=Nombre: %s, Edad: %d años
+
+Internacionalizacion=Internationalization
+saludo=Hello!
+Espanol=Spanish
+Ingles=English
+Frances=French
+Salir=Exit
+Fecha=Current Date
+Numero=Formatted Number
+Moneda=Price in currency
+FormatoTexto=Name: %s, Age: %d years
+
+Internacionalizacion=Internationalisation
+saludo=Bonjour !
+Espanol=Espagnol
+Ingles=Anglais
+Frances=Français
+Salir=Quitter
+Fecha=Date actuelle
+Numero=Nombre formaté
+Moneda=Prix en devise
+FormatoTexto=Nom : %s, Âge : %d ans
