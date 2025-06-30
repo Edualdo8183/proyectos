@@ -1,0 +1,104 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class Main {
+
+    private static JLabel etiqueta, etiquetaFecha, etiquetaNumero, etiquetaMoneda, etiquetaTexto;
+    private static JButton btnES, btnEN, btnFR, btnSalir;
+    private static Locale localizacion;
+    private static ResourceBundle miBundle;
+    private static JFrame frame;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            localizacion = new Locale("es", "EC");
+            miBundle = ResourceBundle.getBundle("MsgBundle", localizacion);
+
+            frame = new JFrame();
+            frame.setTitle(miBundle.getString("Internacionalizacion"));
+            frame.setSize(450, 300);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLayout(new BorderLayout());
+
+            // Panel norte con botones
+            JPanel panelNorte = new JPanel(new FlowLayout());
+            btnES = new JButton();
+            btnEN = new JButton();
+            btnFR = new JButton();
+            panelNorte.add(btnES);
+            panelNorte.add(btnEN);
+            panelNorte.add(btnFR);
+            frame.add(panelNorte, BorderLayout.NORTH);
+
+            // Panel central con etiquetas de formatos
+            JPanel panelCentro = new JPanel(new GridLayout(5, 1));
+            etiqueta = new JLabel("", JLabel.CENTER);
+            etiquetaFecha = new JLabel("", JLabel.CENTER);
+            etiquetaNumero = new JLabel("", JLabel.CENTER);
+            etiquetaMoneda = new JLabel("", JLabel.CENTER);
+            etiquetaTexto = new JLabel("", JLabel.CENTER);
+            panelCentro.add(etiqueta);
+            panelCentro.add(etiquetaFecha);
+            panelCentro.add(etiquetaNumero);
+            panelCentro.add(etiquetaMoneda);
+            panelCentro.add(etiquetaTexto);
+            frame.add(panelCentro, BorderLayout.CENTER);
+
+            // Panel sur con botón salir
+            btnSalir = new JButton();
+            JPanel panelSur = new JPanel();
+            panelSur.add(btnSalir);
+            frame.add(panelSur, BorderLayout.SOUTH);
+
+            // Acciones de botones
+            btnES.addActionListener(e -> actualizarIdioma(new Locale("es", "EC")));
+            btnEN.addActionListener(e -> actualizarIdioma(new Locale("en", "US")));
+            btnFR.addActionListener(e -> actualizarIdioma(new Locale("fr", "FR")));
+            btnSalir.addActionListener((ActionEvent e) -> System.exit(0));
+
+            actualizarIdioma(localizacion);
+
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+
+    private static void actualizarIdioma(Locale locale) {
+        localizacion = locale;
+        miBundle = ResourceBundle.getBundle("MsgBundle", localizacion);
+
+        frame.setTitle(miBundle.getString("Internacionalizacion"));
+        etiqueta.setText(miBundle.getString("saludo"));
+        btnES.setText(miBundle.getString("Espanol"));
+        btnEN.setText(miBundle.getString("Ingles"));
+        btnFR.setText(miBundle.getString("Frances"));
+        btnSalir.setText(miBundle.getString("Salir"));
+
+        // ➤ Fecha formateada
+        DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.LONG, localizacion);
+        etiquetaFecha.setText(miBundle.getString("Fecha") + ": " + formatoFecha.format(new Date()));
+
+        // ➤ Número decimal formateado
+        DecimalFormat formatoDecimal = (DecimalFormat) NumberFormat.getNumberInstance(localizacion);
+        double numero = 12345.678;
+        etiquetaNumero.setText(miBundle.getString("Numero") + ": " + formatoDecimal.format(numero));
+
+        // ➤ Moneda formateada
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(localizacion);
+        etiquetaMoneda.setText(miBundle.getString("Moneda") + ": " + formatoMoneda.format(9876.54));
+
+        // ➤ Texto formateado con String.format
+        String nombre = "Carlos";
+        int edad = 30;
+        String mensaje = String.format(miBundle.getString("FormatoTexto"), nombre, edad);
+        etiquetaTexto.setText(mensaje);
+    }
+}
