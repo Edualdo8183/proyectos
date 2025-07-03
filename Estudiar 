@@ -1,0 +1,73 @@
+package app;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class MainApp extends JFrame {
+    private JComboBox<String> idiomaCombo;
+    private JTextField nombreCampo;
+    private JButton botonSaludar;
+    private JLabel etiquetaNombre;
+    private ResourceBundle mensajes;
+
+    private Locale[] locales = {
+        new Locale("es"),
+        new Locale("en"),
+        new Locale("fr")
+    };
+
+    public MainApp() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(350, 180);
+        setLocationRelativeTo(null);
+
+        // Idioma inicial
+        setIdioma(locales[0]);
+
+        idiomaCombo = new JComboBox<>(new String[]{"Español", "English", "Français"});
+        idiomaCombo.addActionListener(e -> {
+            int idx = idiomaCombo.getSelectedIndex();
+            setIdioma(locales[idx]);
+            actualizarTextoGUI();
+        });
+
+        etiquetaNombre = new JLabel();
+        nombreCampo = new JTextField(15);
+        botonSaludar = new JButton();
+
+        botonSaludar.addActionListener(e -> {
+            String nombre = nombreCampo.getText();
+            String saludo = mensajes.getString("saludo").replace("{0}", nombre);
+            JOptionPane.showMessageDialog(this, saludo);
+        });
+
+        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
+        panel.add(etiquetaNombre);
+        panel.add(nombreCampo);
+        panel.add(new JLabel("Idioma:"));
+        panel.add(idiomaCombo);
+        panel.add(new JLabel());
+        panel.add(botonSaludar);
+
+        add(panel);
+        actualizarTextoGUI();
+    }
+
+    private void setIdioma(Locale locale) {
+        mensajes = ResourceBundle.getBundle("mensajes.mensajes", locale);
+    }
+
+    private void actualizarTextoGUI() {
+        etiquetaNombre.setText(mensajes.getString("etiqueta"));
+        botonSaludar.setText(mensajes.getString("boton"));
+        setTitle(mensajes.getString("titulo"));
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new MainApp().setVisible(true);
+        });
+    }
+}
