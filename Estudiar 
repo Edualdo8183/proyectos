@@ -71,3 +71,19 @@ public class MainApp extends JFrame {
         });
     }
 }
+
+
+titulo=Aplicación de Saludo
+etiqueta=Nombre:
+boton=Saludar
+saludo=¡Hola, {0}!
+
+titulo=Greeting App
+etiqueta=Name:
+boton=Greet
+saludo=Hello, {0}!
+
+titulo=Application de Salutation
+etiqueta=Nom:
+boton=Saluer
+saludo=Bonjour, {0}!
