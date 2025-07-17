@@ -1,0 +1,198 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
+
+// Clase Estudiante
+class Estudiante implements Serializable {
+    private String nombre;
+    private double nota;
+
+    public Estudiante(String nombre, double nota) {
+        this.nombre = nombre;
+        this.nota = nota;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getNota() {
+        return nota;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " - Nota: " + nota;
+    }
+}
+
+// Clase para manejar archivos binarios
+class ArchivoBinario {
+    private final String ruta;
+
+    public ArchivoBinario(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public void guardar(ArrayList<Estudiante> lista) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ruta))) {
+            out.writeObject(lista);
+        }
+    }
+
+    public ArrayList<Estudiante> leer() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(ruta))) {
+            return (ArrayList<Estudiante>) in.readObject();
+        }
+    }
+}
+
+// Clase para manejar archivos de texto
+class ArchivoTexto {
+    private final String ruta;
+
+    public ArchivoTexto(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public void guardar(ArrayList<Estudiante> lista) throws IOException {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(ruta))) {
+            for (Estudiante e : lista) {
+                pw.println(e);
+            }
+        }
+    }
+}
+
+// Clase para gestionar directorios
+class GestorDirectorio {
+    private final String ruta;
+
+    public GestorDirectorio(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public void crearSiNoExiste() {
+        File dir = new File(ruta);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+    }
+
+    public String[] listarContenido() {
+        File dir = new File(ruta);
+        return dir.list() != null ? dir.list() : new String[0];
+    }
+}
+
+// Clase principal con la interfaz gráfica
+public class Ventana extends JFrame {
+    private ArrayList<Estudiante> estudiantes;
+    private JTextArea area = new JTextArea(10, 30);
+    private ArchivoBinario archivoBinario;
+    private ArchivoTexto archivoTexto;
+    private GestorDirectorio gestorDir;
+
+    public Ventana(
+        ArrayList<Estudiante> estudiantes,
+        ArchivoBinario archivoBinario,
+        ArchivoTexto archivoTexto,
+        GestorDirectorio gestorDir
+    ) {
+        this.estudiantes = estudiantes;
+        this.archivoBinario = archivoBinario;
+        this.archivoTexto = archivoTexto;
+        this.gestorDir = gestorDir;
+
+        setTitle("Gestor Estudiantes");
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        area.setEditable(false);
+        add(new JScrollPane(area));
+
+        crearMenu();
+    }
+
+    void crearMenu() {
+        JMenuBar barra = new JMenuBar();
+        JMenu menu = new JMenu("Menú");
+
+        JMenuItem agregar = new JMenuItem("Agregar estudiante");
+        JMenuItem guardar = new JMenuItem("Guardar"); // Era mostrar binario
+        JMenuItem guardarTxt = new JMenuItem("Guardar texto");
+        JMenuItem verDir = new JMenuItem("Ver directorio (Ctrl+D)");
+
+        guardar.setAccelerator(KeyStroke.getKeyStroke("control L"));
+        verDir.setAccelerator(KeyStroke.getKeyStroke("control D"));
+
+        agregar.addActionListener(e -> agregar());
+        guardar.addActionListener(e -> mostrarBin()); // Muestra desde binario
+        guardarTxt.addActionListener(e -> guardarTexto());
+        verDir.addActionListener(e -> mostrarDir());
+
+        menu.add(agregar);
+        menu.add(guardar);       // ahora se llama "Guardar"
+        menu.add(guardarTxt);
+        menu.add(verDir);
+        barra.add(menu);
+        setJMenuBar(barra);
+    }
+
+    void agregar() {
+        String nombre = JOptionPane.showInputDialog("Nombre:");
+        String notaStr = JOptionPane.showInputDialog("Nota:");
+        try {
+            double nota = Double.parseDouble(notaStr);
+            estudiantes.add(new Estudiante(nombre, nota));
+            area.append("Agregado: " + nombre + "\n");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error en los datos.");
+        }
+    }
+
+    void guardarTexto() {
+        try {
+            archivoTexto.guardar(estudiantes);
+            area.append("Guardado en texto\n");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar texto.");
+        }
+    }
+
+    void mostrarBin() {
+        area.setText("");
+        try {
+            estudiantes = archivoBinario.leer();
+            for (Estudiante e : estudiantes)
+                area.append(e + "\n");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer binario.");
+        }
+    }
+
+    void mostrarDir() {
+        area.setText("Contenido del directorio:\n");
+        for (String nombre : gestorDir.listarContenido())
+            area.append(nombre + "\n");
+    }
+
+    // Método main
+    public static void main(String[] args) {
+        String directorio = "datos";
+        String archivoBin = directorio + "/estudiantes.dat";
+        String archivoTxt = directorio + "/estudiantes.txt";
+
+        GestorDirectorio gestorDir = new GestorDirectorio(directorio);
+        gestorDir.crearSiNoExiste();
+
+        ArchivoBinario archivoBinario = new ArchivoBinario(archivoBin);
+        ArchivoTexto archivoTexto = new ArchivoTexto(archivoTxt);
+        ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
+
+        Ventana ventana = new Ventana(listaEstudiantes, archivoBinario, archivoTexto, gestorDir);
+        ventana.setVisible(true);
+    }
+}
