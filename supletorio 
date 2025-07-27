@@ -18,3 +18,44 @@ public class Producto implements Serializable {
         return id + " | " + nombre + " | $" + precio + " | " + descripcion;
     }
 }
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class ArchivoServicio {
+    public void guardar(String ruta, ArrayList<Producto> lista) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta))) {
+            for (Producto p : lista) oos.writeObject(p);
+        } catch (Exception e) {
+            System.out.println("Error al guardar: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Producto> leer(String ruta) {
+        ArrayList<Producto> lista = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ruta))) {
+            while (true) {
+                Producto p = (Producto) ois.readObject();
+                lista.add(p);
+            }
+        } catch (EOFException e) {
+            // fin de archivo
+        } catch (Exception e) {
+            System.out.println("Error al leer: " + e.getMessage());
+        }
+        return lista;
+    }
+
+    public void crearDirectorio(String ruta) {
+        File dir = new File(ruta);
+        if (!dir.exists()) dir.mkdirs();
+    }
+
+    public String listarArchivos(String ruta) {
+        File dir = new File(ruta);
+        if (!dir.exists()) return "Directorio no existe.";
+        StringBuilder sb = new StringBuilder("Archivos:\n");
+        for (File f : dir.listFiles()) sb.append(f.getName()).append("\n");
+        return sb.toString();
+    }
+}
