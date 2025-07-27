@@ -59,3 +59,87 @@ public class ArchivoServicio {
         return sb.toString();
     }
 }
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Main extends JFrame {
+    JTextArea area;
+    ArrayList<Producto> productos = new ArrayList<>();
+    ArchivoServicio servicio = new ArchivoServicio();
+    String ruta = "archivos/PRODUCTOS.DAT";
+
+    public Main() {
+        setTitle("Gestor Simple de Productos");
+        setSize(500, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        area = new JTextArea();
+        add(new JScrollPane(area), BorderLayout.CENTER);
+        crearMenu();
+        setAtajos();
+    }
+
+    void crearMenu() {
+        JMenuBar barra = new JMenuBar();
+        JMenu menu = new JMenu("Archivo");
+
+        JMenuItem leer = new JMenuItem("Leer");
+        JMenuItem guardar = new JMenuItem("Guardar");
+        JMenuItem crearDir = new JMenuItem("Crear Directorio");
+        JMenuItem listar = new JMenuItem("Listar Archivos");
+        JMenuItem salir = new JMenuItem("Salir");
+
+        leer.addActionListener(e -> leerProductos());
+        guardar.addActionListener(e -> guardarProductos());
+        crearDir.addActionListener(e -> {
+            servicio.crearDirectorio("archivos");
+            JOptionPane.showMessageDialog(this, "Directorio creado.");
+        });
+        listar.addActionListener(e -> area.setText(servicio.listarArchivos("archivos")));
+        salir.addActionListener(e -> System.exit(0));
+
+        menu.add(leer); menu.add(guardar); menu.add(crearDir); menu.add(listar); menu.add(salir);
+        barra.add(menu);
+        setJMenuBar(barra);
+    }
+
+    void leerProductos() {
+        productos = servicio.leer(ruta);
+        StringBuilder sb = new StringBuilder("Productos:\n");
+        for (Producto p : productos) sb.append(p).append("\n");
+        area.setText(sb.toString());
+    }
+
+    void guardarProductos() {
+        if (productos.isEmpty()) {
+            productos.add(new Producto(1, "Ejemplo", 10.0, "Producto de prueba"));
+        }
+        servicio.guardar(ruta, productos);
+        JOptionPane.showMessageDialog(this, "Productos guardados.");
+    }
+
+    void setAtajos() {
+        area.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("control L"), "leer");
+        area.getActionMap().put("leer", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                leerProductos();
+            }
+        });
+
+        area.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("control G"), "guardar");
+        area.getActionMap().put("guardar", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                guardarProductos();
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new Main().setVisible(true));
+    }
+}
