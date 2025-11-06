@@ -1,0 +1,27 @@
+package com.ecodeup.daodemo;
+
+import com.ecodeup.dao.ClienteDaoImpl;
+import com.ecodeup.idao.IClienteDao;
+import com.ecodeup.model.Cliente;
+
+public class DaoDemo {
+
+    public static void main(String[] args) {
+        // Objeto para manipular el DAO
+        IClienteDao clienteDao = new ClienteDaoImpl();
+
+        // Imprimir los clientes
+        clienteDao.obtenerClientes().forEach(System.out::println);
+
+        // Obtener un cliente
+        Cliente cliente = clienteDao.obtenerCliente(0);
+        cliente.setApellido("Pardo");
+
+        // Actualizar cliente
+        clienteDao.actualizarCliente(cliente);
+
+        // Imprimir los clientes nuevamente
+        System.out.println("******");
+        clienteDao.obtenerClientes().forEach(System.out::println);
+    }
+}
