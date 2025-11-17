@@ -26,3 +26,87 @@ public class Persona {
         this.edad = edad;
     }
 }
+
+package controllers;
+
+import models.Persona;
+
+public class PersonaController {
+
+    public Persona findByName(Persona[] personas, String nombre) {
+        for (Persona p : personas) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
+                return p;
+            }
+        }
+        return null;
+    }
+}package controllers;
+
+public class BusquedaBinaria {
+
+    public boolean buscadaNumero(int[] numeros, int valor) {
+        int inicio = 0;
+        int fin = numeros.length - 1;
+
+        while (inicio <= fin) {
+            int medio = (inicio + fin) / 2;
+
+            if (numeros[medio] == valor) {
+                return true;
+            }
+            if (valor < numeros[medio]) {
+                fin = medio - 1;
+            } else {
+                inicio = medio + 1;
+            }
+        }
+        return false;
+    }
+}package views;
+
+import models.Persona;
+
+public class ShowConsole {
+
+    public void showResult(int resultado, int valorBuscado) {
+        if (resultado == -1) {
+            System.out.println("El valor " + valorBuscado + " no se encontró");
+        } else {
+            System.out.println("El valor " + valorBuscado + " se encontró en la posición " + resultado);
+        }
+    }
+
+    public void showPersonResult(Persona persona, String nombreBuscado) {
+        if (persona == null) {
+            System.out.println("La persona " + nombreBuscado + " no fue encontrada.");
+        } else {
+            System.out.println("Persona encontrada: " + persona.getNombre() + " (Edad: " + persona.getEdad() + ")");
+        }
+    }
+}import controllers.PersonaController;
+import controllers.BusquedaBinaria;
+import models.Persona;
+import views.ShowConsole;
+
+public class App {
+    public static void main(String[] args) {
+
+        ShowConsole view = new ShowConsole();
+        PersonaController pController = new PersonaController();
+        BusquedaBinaria bController = new BusquedaBinaria();
+
+        Persona[] personas = {
+                new Persona("Eduardo", 20),
+                new Persona("Ana", 18),
+                new Persona("Sofia", 22)
+        };
+
+        Persona resultadoPersona = pController.findByName(personas, "Sofia");
+        view.showPersonResult(resultadoPersona, "Sofia");
+
+        int[] numeros = {2, 4, 7, 10, 15, 20};
+        boolean encontrado = bController.buscadaNumero(numeros, 10);
+        System.out.println("Número encontrado: " + encontrado);
+    }
+}
